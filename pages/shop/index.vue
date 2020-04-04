@@ -4,7 +4,10 @@
         <ad></ad>
         <search>
             <template v-slot:pageContent>
-                <brandCard></brandCard>
+                <brandCard
+                    :brandData=brandData
+                    >
+                    </brandCard>
             </template>
             <template v-slot:pagination>
                 <pagination></pagination>
@@ -35,8 +38,11 @@
         },
         data () {
             return {
-
+                brandData: '',
             };
+        },
+        async asyncData({ app }) {
+            //await app.$axios.$get()
         },
         computed: {
             

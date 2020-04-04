@@ -44,10 +44,18 @@
                                         />
                                     </svg> -->
                                 <span class="text-teal-500">
-                                    {{ item.click_count }}<fa-icon :icon="faEye" class="ml-2"></fa-icon>
+                                    {{ item.click_count }}
+                                    <fa-layers class="fa-1x ml-2">
+                                        <fa-icon :icon="faEye"></fa-icon>
+                                    </fa-layers>
+                                    
                                 </span>
                                 <span class="border-l-2 border-gray-500 ml-2 pl-2 text-teal-500">
-                                    {{ item.click_count }}<fa-icon :icon="faShoppingBag" class="ml-2"></fa-icon>
+                                    {{ item.click_count }}
+                                    <fa-layers class="fa-1x ml-2">
+                                        <fa-icon :icon="faShoppingBag"></fa-icon>
+                                    </fa-layers>
+                                    
                                 </span>
                             </div>
                             <!-- <div class='p-2 text-white bg-orange-500 rounded-lg m-2 font-serif'>商品詳情</div> -->
@@ -57,7 +65,10 @@
                                 >                                
                                 <div class="inline-flex items-center bg-white leading-none text-pink-600 rounded-full px-2  py-1 shadow text-sm  border hover:border-indigo-600">
                                     <span class="inline-flex bg-indigo-600 text-white rounded-full h-6 px-3 justify-center items-center">
-                                        <fa-icon :icon="faShoppingCart"></fa-icon>
+                                        <fa-layers cladd="fa-1x">
+                                            <fa-icon :icon="faShoppingCart"></fa-icon>
+                                        </fa-layers>
+                                        
                                     </span>
                                     <span class="inline-flex px-2 text-indigo-600 font-yen text-md">商品詳情</span>
                                 </div>

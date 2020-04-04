@@ -16,16 +16,23 @@
                             <li 
                                 class="relative mr-4 cursor-pointer" 
                                 @click="$emit('showShoppingCart')"
-                                >                            
-                                <fa-icon :icon="faShoppingCart" class="text-xl text-white hover:text-pink-300"></fa-icon>
+                                >
+                                <fa-layers class="text-xl text-white hover:text-pink-300">
+                                    <fa-icon :icon="faShoppingCart"></fa-icon>
+                                </fa-layers>
+                                
                                 <div class="absolute top-0 right-0 -mt-3 -mr-3 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">20</div>
                             </li>
                             <li class="mr-3 cursor-pointer">
                                 <el-dropdown trigger="click">
                                     <span class="el-dropdown-link">
-                                        <fa-icon :icon="faUserCheck" class="text-xl text-white hover:text-pink-300">
-                                        </fa-icon>
-                                        <!-- <fa-icon :icon="faUserTimes" class="text-xl text-white hover:text-orange-400"></fa-icon> -->
+                                        <fa-layers class="text-xl text-white hover:text-pink-300">
+                                            <fa-icon :icon="faUserCheck" ></fa-icon>
+                                        </fa-layers>
+                                        <!-- <fa-layers class="text-xl text-white hover:text-orange-400">
+                                            <fa-icon :icon="faUserTimes"></fa-icon>
+                                        </fa-layers> -->
+                                        
                                     </span>                                
                                     
                                     <el-dropdown-menu slot="dropdown">
@@ -37,7 +44,9 @@
                             </li>
                             <!-------------------------------------------------------------------- start toggle -->
                             <li class="mr-4 cursor-pointer" @click="showNavMenu = !showNavMenu">
-                                <fa-icon :icon="faBars" class="text-xl text-white hover:text-pink-300"></fa-icon>
+                                <fa-layers class="text-xl text-white hover:text-pink-300">
+                                    <fa-icon :icon="faBars" ></fa-icon>
+                                </fa-layers>                                
                             </li><!-- End toggle -->
                         </ul>
                     </div>
@@ -54,35 +63,45 @@
                             :class="$route.path === '/shop' || $route.path === '/shop/'? 'bg-pink-500': ''"
                             @click="$router.push('/shop')"
                             >
-                            <fa-icon :icon="faShoppingBag"></fa-icon>&nbsp;找商品
+                            <fa-layers class="fa-1x">
+                                <fa-icon :icon="faShoppingBag"></fa-icon>
+                            </fa-layers>&nbsp;找商品
                         </li>
                         <li 
                             class="inline-block my-2 text-sm text-white cursor-pointer px-3 py-1 border border-pink-500 lg:border-indigo-700 hover:bg-pink-500 rounded-lg"
                             :class="$route.path === '/shop/new' || $route.path === '/shop/new/'? 'bg-pink-500': ''"
                             @click="$router.push('/shop/new')"
                             >
-                            <fa-icon :icon="faRunning"></fa-icon>&nbsp;找新品
+                            <fa-layers class="fa-1x">
+                                <fa-icon :icon="faRunning"></fa-icon>
+                            </fa-layers>&nbsp;找新品
                         </li>
                         <li 
                             class="inline-block my-2 text-sm text-white cursor-pointer px-3 py-1 border border-pink-500 lg:border-indigo-700 hover:bg-pink-500 rounded-lg"
                             :class="$route.path === '/shop/onSale' || $route.path === '/shop/onSale/'? 'bg-pink-500': ''"
                             @click="$router.push('/shop/onSale')"
                             >
-                            <fa-icon :icon="faHandHoldingUsd"></fa-icon>&nbsp;找特價
+                            <fa-layers class="fa-1x">
+                                <fa-icon :icon="faHandHoldingUsd"></fa-icon>
+                            </fa-layers>&nbsp;找特價
                         </li>
                         <li 
                             class="inline-block my-2 text-sm text-white cursor-pointer px-3 py-1 border border-pink-500 lg:border-indigo-700 hover:bg-pink-500 rounded-lg"
                             :class="$route.path === '/shop/activity' || $route.path === '/shop/activity/'? 'bg-pink-500': ''"
                             @click="$router.push('/shop/activity')"
                             >
-                            <fa-icon :icon="faCommentsDollar"></fa-icon>&nbsp;找活動
+                            <fa-layers class="fa-1x">
+                                <fa-icon :icon="faCommentsDollar"></fa-icon>
+                            </fa-layers>&nbsp;找活動
                         </li>
                         <li 
                             class="inline-block my-2 text-sm text-white cursor-pointer px-3 py-1 border border-pink-500 lg:border-indigo-700 hover:bg-pink-500 rounded-lg"
                             :class="$route.path === '/shop/article' || $route.path === '/shop/article/'? 'bg-pink-500': ''"
                             @click="$router.push('/shop/article')"
                             >
-                            <fa-icon :icon="faRssSquare"></fa-icon>&nbsp;新動態
+                            <fa-layers class="fa-1x">
+                                <fa-icon :icon="faRssSquare"></fa-icon>
+                            </fa-layers>&nbsp;新動態
                         </li>
                     </ul>
 
@@ -90,16 +109,22 @@
                         <li 
                             class="relative mr-6 cursor-pointer" 
                             @click="$emit('showShoppingCart')"
-                            >                            
-                            <fa-icon :icon="faShoppingCart" class="text-xl text-white hover:text-pink-300"></fa-icon>
+                            >
+                            <fa-layers class="text-xl text-white hover:text-pink-300">
+                                <fa-icon :icon="faShoppingCart"></fa-icon>
+                            </fa-layers>
+                            
                             <div class="absolute top-0 right-0 -mt-3 -mr-3 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">20</div>
                         </li>
                         <li class="mr-6 cursor-pointer">
                             <el-dropdown trigger="click">
                                 <span class="el-dropdown-link">
-                                    <fa-icon :icon="faUserCheck" class="text-xl text-white hover:text-pink-300">
-                                    </fa-icon>
-                                    <!-- <fa-icon :icon="faUserTimes" class="text-xl text-white hover:text-orange-400"></fa-icon> -->
+                                    <fa-layers class="text-xl text-white hover:text-pink-300">
+                                        <fa-icon :icon="faUserCheck"></fa-icon>
+                                    </fa-layers>    
+                                    <!-- <fa-layers class="text-xl text-white hover:text-pink-300">
+                                        <fa-icon :icon="faUserTimes" class="text-xl text-white hover:text-orange-400"></fa-icon>
+                                    </fa-layers> -->
                                 </span>                                
                                 
                                 <el-dropdown-menu slot="dropdown">
@@ -111,7 +136,9 @@
                         </li>
                         <!-------------------------------------------------------------------- start toggle -->
                         <li class="mr-6 cursor-pointer lg:hidden" @click="showNavMenu = !showNavMenu">
-                            <fa-icon :icon="faBars" class="text-xl text-white hover:text-pink-300"></fa-icon>
+                            <fa-layers class="fa-1x text-xl text-white hover:text-pink-300">
+                                <fa-icon :icon="faBars"></fa-icon>
+                            </fa-layers>
                         </li><!-- End toggle -->
                     </ul>
 

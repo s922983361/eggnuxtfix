@@ -7,7 +7,9 @@
         <img class="h-32 w-full object-cover mt-2" src="/images/logos/03.png" alt="NIKE AIR">
         <div class="flex items-center justify-between px-4 py-2 bg-gray-900">
             <span class="text-gray-500">
-                <fa-icon :icon="faEye"></fa-icon>&nbsp;22000
+                <fa-layers>
+                    <fa-icon :icon="faEye"></fa-icon>
+                </fa-layers>&nbsp;22000
             </span>                        
             <button
                 @click="$router.push(`/shop/brandList/002?brand=品牌名稱`)"

@@ -13,7 +13,10 @@
                     class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                     type="button"
                     v-on:click="toggleNavbar()">
-                    <fa-icon :icon="faBars" class="text-white"></fa-icon>
+                    <fa-layers class="fa-1x text-white">
+                        <fa-icon :icon="faBars"></fa-icon>
+                    </fa-layers>
+                    
                 </button>
             </div><!-- End logo -->
             <!-- start nav-item -->
@@ -32,8 +35,10 @@
                                 offset: -63
                             }"
                             >
-                            <fa-icon :icon="faFileAlt" class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2"></fa-icon> Docs</a>
-                            
+                            <fa-layers class="fa-1x lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
+                                <fa-icon :icon="faFileAlt" ></fa-icon>
+                            </fa-layers> Docs
+                        </a>
                     </li>
                     <li class="flex items-center hover:bg-orange-400">
                         <a 
@@ -46,8 +51,10 @@
                                 offset: -63
                             }"
                             >
-                            <fa-icon :icon="faFileAlt" class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2"></fa-icon> Docs</a>
-                            
+                            <fa-layers class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
+                                <fa-icon :icon="faFileAlt" ></fa-icon>
+                            </fa-layers> Docs
+                        </a>
                     </li>
                     <li class="flex items-center hover:bg-orange-400">
                         <a 
@@ -60,8 +67,10 @@
                                 offset: -63 
                             }"
                             >
-                            <fa-icon :icon="faFileAlt" class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2"></fa-icon> Docs</a>
-                            
+                            <fa-layers class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
+                                <fa-icon :icon="faFileAlt" ></fa-icon>
+                            </fa-layers> Docs
+                        </a>
                     </li>
                     <li class="flex items-center hover:bg-orange-400">
                         <a 
@@ -74,8 +83,10 @@
                                 offset: -63 
                             }"
                             >
-                            <fa-icon :icon="faFileAlt" class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2"></fa-icon> Docs</a>
-                            
+                            <fa-layers class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
+                                <fa-icon :icon="faFileAlt" ></fa-icon>
+                            </fa-layers> Docs
+                        </a>
                     </li>
                 </ul><!-- END LEFT nav-item -->
 
@@ -85,21 +96,28 @@
                         <a
                             class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                             href="#pablo">
-                            <fa-icon :icon="faFacebook" class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2"></fa-icon> 
+                            <fa-layers class="fa-1x lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
+                                <fa-icon :icon="faFacebook" ></fa-icon>
+                            </fa-layers>
                             <span class="lg:hidden inline-block ml-2">Share</span></a>
                     </li>
                     <li class="flex items-center">
                         <a
                             class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                             href="#pablo">
-                            <fa-icon :icon="faTwitter" class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2"></fa-icon>
+                            <fa-layers class="fa-1x lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
+                                <fa-icon :icon="faTwitter"></fa-icon>
+                            </fa-layers>                            
                             <span class="lg:hidden inline-block ml-2">Tweet</span></a>
                     </li>
                     <li class="flex items-center">
                         <a
                             class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                             href="#pablo">
-                            <fa-icon :icon="faGithub" class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2"></fa-icon>
+                            <fa-layers class="fa-1x lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
+                                <fa-icon :icon="faGithub" ></fa-icon>
+                            </fa-layers>
+                            
                             <span class="lg:hidden inline-block ml-2">Star</span></a>
                     </li>
                     <li class="flex items-center">
@@ -109,7 +127,9 @@
                             style="transition: all 0.15s ease 0s;"
                             >
                             <nuxt-link to="/shop">
-                                <fa-icon :icon="faHandPointRight" class="text-lg"></fa-icon> &nbsp; 進入採購中心
+                                <fa-layers class="fa-1x text-lg">
+                                    <fa-icon :icon="faHandPointRight"></fa-icon>
+                                </fa-layers>&nbsp; 進入採購中心
                             </nuxt-link>
                             </button>
                     </li>

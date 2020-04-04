@@ -14,8 +14,11 @@
 </template>
 
 <script>
-    export default {
-        props: {},        
+    
+    import '~/node_modules/slick-carousel/slick/slick.css'
+    import '~/node_modules/slick-carousel/slick/slick-theme.css'
+    
+    export default {        
         data () {
             return {
                 AD:[
@@ -62,7 +65,7 @@
                 
                 }
             };
-        },        
+        },
         computed: {},
         methods: {
             next() {

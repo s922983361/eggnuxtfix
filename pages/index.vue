@@ -55,7 +55,9 @@
                         <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                             <div class="px-4 py-5 flex-auto">
                                 <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400 text-3xl">                                
-                                    <fa-icon :icon="faShoppingCart"></fa-icon>
+                                    <fa-layers class="fa-1x">
+                                        <fa-icon :icon="faShoppingCart"></fa-icon>
+                                    </fa-layers>
                                 </div>
                                 <h6 class="text-xl font-semibold">採購人員-商品經銷商</h6>
                                 <p class="mt-2 mb-4 text-gray-600">
@@ -74,7 +76,9 @@
                         <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                             <div class="px-4 py-5 flex-auto">
                                 <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-blue-400 text-3xl">
-                                    <fa-icon :icon="faMapSigns"></fa-icon>
+                                    <fa-layers class="fa-1x">
+                                        <fa-icon :icon="faMapSigns"></fa-icon>
+                                    </fa-layers>
                                 </div>
                                 <h6 class="text-xl font-semibold font-yen">商品經銷商</h6>
                                 <p class="mt-2 mb-4 text-gray-600">
@@ -93,7 +97,9 @@
                         <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                             <div class="px-4 py-5 flex-auto">
                                 <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-green-400 text-3xl">
-                                    <fa-icon :icon="faIndustry"></fa-icon>
+                                    <fa-layers class="fa-1x">
+                                        <fa-icon :icon="faIndustry"></fa-icon>
+                                    </fa-layers>
                                 </div>
                                 <h6 class="text-xl font-semibold">生產廠商</h6>
                                 <p class="mt-2 mb-4 text-gray-600">
@@ -406,7 +412,9 @@
             v-show="showBackToTop"
             class="fixed bottom-0 right-0 text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mr-6 mb-6 shadow-lg rounded-full bg-orange-600 text-4xl cursor-pointer" 
             v-scroll-to="{ el: '#landing' }">
-            <fa-icon :icon="faArrowAltCircleUp"></fa-icon>
+            <fa-layers class="text-4xl">
+                <fa-icon :icon="faArrowAltCircleUp"></fa-icon>
+            </fa-layers>
         </div>
 
     </div>

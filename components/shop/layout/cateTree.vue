@@ -1,13 +1,16 @@
 <template>
     <div id="cateTree">
-        <el-tree 
-            empty-text="尚無數據!"
-            :data="treeData"
-            :highlight-current="true"
-            :accordion="true"
-            :render-content="renderContent"
-            >
-            </el-tree>
+        <client-only>
+            <el-tree 
+                empty-text="尚無數據!"
+                :data="treeData"
+                :props="defaultProps"
+                :highlight-current="true"
+                :accordion="true"
+                :render-content="renderContent"
+                >
+                </el-tree>
+        </client-only>  
     </div>
 </template>
 
@@ -15,75 +18,16 @@
     export default {
         data () {
             return { 
-                treeData: [
-                    {
-                        label: '書寫用品',
-                        img:'/images/icon/001.png',
-                        children: [
-                            {
-                                label:'原子筆',
-                                img:'/images/icon/001.png',
-                                link: '/shop/cateList/001',
-                            },
-                            {
-                                label:'中性筆',
-                                img:'/images/icon/001.png',
-                                link: '/shop/cateList/002',
-                            },
-                        ]
-                    },
-                    {
-                        label: '桌上文具',
-                        img:'/images/icon/002.png',
-                        children: [
-                            {
-                                label:'釘書機',
-                                img:'/images/icon/002.png',
-                                link: '/shop/cateList/003',
-                            },
-                            {
-                                label:'除針器',
-                                img:'/images/icon/002.png',
-                                link: '/shop/cateList/004',                                
-                            },
-                        ]
-                    },
-                    
-                    {
-                        label: '檔案收納',
-                        img:'/images/icon/003.png',
-                        children: [
-                            {
-                                label:'檔案夾',
-                                img:'/images/icon/003.png',
-                                link: '/shop/cateList/005',
-                            },
-                            {
-                                label:'風琴夾',
-                                img:'/images/icon/003.png',
-                                link: '/shop/cateList/006',
-                            },
-                        ]
-                    },
-                    
-                    {
-                        label: '事務機器',
-                        img:'/images/icon/004.png',
-                        children: [
-                            {
-                                label:'印表機',
-                                img:'/images/icon/004.png',
-                                link: '/shop/cateList/007',                                
-                            },
-                            {
-                                label:'噴墨印表機',
-                                img:'/images/icon/004.png',
-                                link: '/shop/cateList/008',                                
-                            },
-                        ]
-                    },
-                ]
+                defaultProps: {
+                    children: 'children',
+                    label: 'label'
+                },
+                cateTotal: 0,
+                treeData: [],
             };
+        },
+        created(){
+            this.getCateTreeData()
         },
         methods: {
             renderContent(h, { node, data, store }) {
@@ -101,14 +45,41 @@
                     return h('div', {  
                             class:'flex items-center border-b border-orange-200',
                             on: { 
-                                click: () => { this.$router.push(`${data.link}?cate=${node.label}`)
+                                click: () => { this.$router.push(`/shop/cateList/${data.id}?cate=${node.label}`)
                                 }
                             }},
                             [
-                                h('p', { class:'pl-32 text-sm md:pl-10'}, node.label),
+                                h('p', { class:'pl-16 text-sm md:pl-10'}, node.label),
                                 h('img', { attrs: { src: data.img, }, class:'w-10 h-10 ml-4'},)
                             ]
                         )
+                }
+            },
+            async getCateTreeData() {
+                try {
+                    const { data, total } = await this.$axios.$get(`${process.env.EGG_API_URL}/shop/cateTreeData`)                    
+                    let arr = data.map( o => {
+                        let obj = {}
+                        obj.id = o._id
+                        obj.pid = o.pid
+                        obj.label = o.name
+                        obj.img = `${process.env.BASE_URL}/uploads/${o.imageUrl}`
+                        if(!this.$_.isEmpty(o.link)) {
+                            obj.link = o.link
+                        }
+                        return obj
+                    })
+                    let tree = arr.filter( o => o.pid == '0')
+                    tree.forEach( o => {
+                        o.children = []
+                        o.children = arr.filter( c => {
+                            return c.pid === o.id
+                        })
+                    })
+                    this.treeData = tree
+                    this.$emit('setCateTotal', total)
+                }catch(err) {
+                    console.log(err)
                 }
             }
         },

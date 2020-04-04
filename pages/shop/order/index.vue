@@ -1,29 +1,8 @@
 <template>
     <div id="order">
-        <div class="antialiased sans-serif min-h-screen bg-white" style="min-height: 900px">
+        <div class="antialiased sans-serif min-h-screen bg-white">
             <div class="border-t-8 border-gray-700 h-2"></div>
             <el-form ref="form" :model="form">
-
-                <div class="flex items-center justify-center mt-8">
-                    <div class="container">
-                        <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg">
-                            <thead class="text-white">
-                                <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-                                    <th class="p-3 text-left">Name</th>
-                                    <th class="p-3 text-left">Email</th>
-                                    <th class="p-3 text-left" width="110px">Actions</th>
-                                </tr>                            
-                            </thead>
-                            <tbody class="flex-1 sm:flex-none">
-                                <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                                    <td class="border-grey-light border hover:bg-gray-100 p-3">John Covv</td>
-                                    <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">contato@johncovv.com</td>
-                                    <td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
-                                </tr>                            
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
                 <!------------------------------------------------------------------------- Start Wrapper -->
                 <div class="container mx-auto py-6 px-4">
                     <div class="flex justify-between">
@@ -130,114 +109,100 @@
                         </div><!-- End Picture -->
                     </div><!-- End Input -->
 
-                    <div class="py-2 ml-auto mt-5 w-full sm:w-2/4 lg:w-1/4">
+                    <div class="flex items-center justify-center">
+                        <div class="container">
+                            <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg">
+                                <thead class="text-white">
+                                    <tr class="bg-teal-400 flex flex-col flex-no-wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                                        <th class="p-3 text-left" width="110px">Delete
+                                            <fa-layers class="fa-1x text-red-400">
+                                                <fa-icon :icon="faTrashAlt"></fa-icon>
+                                            </fa-layers>
+                                        </th>
+                                        <th class="p-3 text-left">品名</th>
+                                        <th class="p-3 text-left">規格/顏色</th>
+                                        <th class="p-3 text-left" width="110px">數量</th>
+                                        <th class="p-3 text-left">單價</th>
+                                        <th class="p-3 text-left">折扣 %</th>
+                                        <th class="p-3 text-left" width="110px">小計</th>
+                                    </tr>                            
+                                </thead>
+                                <tbody class="flex-1 sm:flex-none">
+                                    <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+                                        <td 
+                                            class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 cursor-pointer"
+                                            @click="removeCartItem"
+                                            >
+                                            Delete
+                                        </td>
+                                        <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">
+                                            <nuxt-link to="/shop/pruduct/id">
+                                                <span class="underline hover:text-blue-300 cursor-pointer">型號 + 品名</span>
+                                            </nuxt-link>
+                                        </td>
+                                        <td class="border-grey-light border hover:bg-gray-100 p-3">
+                                            <span class="mr-3">規格4556456465456464</span>
+                                            <div class="inline-block w-3 h-3 rounded-full text-gray-300" style="background-color:blue;"></div>
+                                        </td>
+                                        <td class="border-grey-light border hover:bg-gray-100 p-1">
+                                            <el-input-number 
+                                                v-model="num" 
+                                                controls-position="right" 
+                                                @change="handleChange" 
+                                                :min="1" 
+                                                :max="999"
+                                                >
+                                                </el-input-number>
+                                        </td>
+                                        <td class="border-grey-light border hover:bg-gray-100 p-3">200</td>
+                                        <td class="border-grey-light border hover:bg-gray-100 p-3">
+                                            <!-- <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">待回復</span> -->
+                                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200 uppercase last:mr-0 mr-1">70 %</span>
+                                        </td>
+                                        <td class="border-grey-light border hover:bg-gray-100 p-3">2400</td>                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="py-2 ml-auto mt-5 w-2/4">
                         <div class="flex justify-between mb-3">
-                            <div class="text-gray-800 text-right flex-1">Total incl. GST</div>
+                            <div class="text-gray-800 text-right flex-1">未稅額</div>
                             <div class="text-right w-40">
-                                <div class="text-gray-800 font-medium" x-html="netTotal"></div>
+                                <div class="text-gray-800 font-medium">1200</div>
                             </div>
                         </div>
                         <div class="flex justify-between mb-4">
-                            <div class="text-sm text-gray-600 text-right flex-1">GST(18%) incl. in Total</div>
+                            <div class="text-sm text-gray-600 text-right flex-1">(5%) incl.</div>
                             <div class="text-right w-40">
-                                <div class="text-sm text-gray-600" x-html="totalGST"></div>
+                                <div class="text-sm text-gray-600">60</div>
                             </div>
                         </div>
                     
                         <div class="py-2 border-t border-b">
                             <div class="flex justify-between">
-                                <div class="text-xl text-gray-600 text-right flex-1">Amount due</div>
+                                <div class="text-xl text-gray-600 text-right flex-1">總計</div>
                                 <div class="text-right w-40">
-                                    <div class="text-xl text-gray-800 font-bold" x-html="netTotal"></div>
+                                    <div class="text-xl text-gray-800 font-bold">1260</div>
                                 </div>
                             </div>
                         </div>
+                        <div class="w-full md:w-1/3 ml-auto rounded-md shadow-sm mt-4">
+                            <button @click="onSubmit" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                            送出
+                            </button>
+                        </div>
                     </div>
+                    
                 </div><!-- End Wrapper -->
             </el-form>            
         </div>
     </div>
-        <!-- <div class="flex items-center justify-center">
-            <div class="container">
-                <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg">
-                    <thead class="text-white">
-                        <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-                            <th class="p-3 text-left">Name</th>
-                            <th class="p-3 text-left">Email</th>
-                            <th class="p-3 text-left" width="110px">Actions</th>
-                        </tr>                            
-                    </thead>
-                    <tbody class="flex-1 sm:flex-none">
-                        <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                            <td class="border-grey-light border hover:bg-gray-100 p-3">John Covv</td>
-                            <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">contato@johncovv.com</td>
-                            <td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
-                        </tr>                            
-                    </tbody>
-                </table>
-            </div>
-        </div> -->
-                
-        <!-- <el-form ref="form" :model="form" label-position="top" label-width="80px">
-            <el-container>
-                <el-main>
-                    <el-row :gutter="25">
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="公司名稱:">
-                                <el-input v-model="form.name"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="連絡人:">
-                                <el-input v-model="form.name"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="送貨地址:">
-                                <el-input v-model="form.name"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="聯絡電話:">
-                                <el-input v-model="form.name"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="希望到貨日期:">
-                                <el-date-picker
-                                    v-model="form.date"
-                                    type="date"
-                                    placeholder="選擇到貨日期"
-                                    >
-                                    </el-date-picker>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="希望到貨時間:">
-                                <el-time-picker
-                                    is-range
-                                    arrow-control
-                                    v-model="form.time"
-                                    range-separator="至"
-                                    start-placeholder="開始时间"
-                                    end-placeholder="结束時間"
-                                    placeholder="選擇到貨時間範圍"
-                                    >
-                                    </el-time-picker>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="備註:">
-                                <el-input type="textarea" v-model="form.name"></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row> 
-                </el-main>
-            </el-container>                        
-        </el-form> -->
 </template>
 
 <script>
+    import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
     export default {
         layout:'shop',
         data () {
@@ -252,12 +217,25 @@
                     tel: '',
                     contact: '',
                     addtion: '',
-                }
+                },
+                num: ''
 
             };
         },
-        computed: {},
-        methods: {},
+        computed: {
+            faTrashAlt() { return faTrashAlt }
+        },
+        methods: {
+            onSubmit() {
+                console.log('submit!')
+            },
+            handleChange(value) {
+                console.log(value)
+            },
+            removeCartItem(){
+                console.log('remove')
+            }
+        },
         components: {},
     }
 

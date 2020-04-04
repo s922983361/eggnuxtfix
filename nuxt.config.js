@@ -79,7 +79,7 @@ module.exports = {
 	//tailwindcss purgeCSS setting
 	purgeCSS: {
 		//保留elment-ui的樣式
-		whitelistPatternsChildren: [/^el-/],
+		whitelistPatternsChildren: [/^el-/, /^slick-/],
 		//刪除沒用到的animate.css
 		keyframes: true
 	},
@@ -90,7 +90,7 @@ module.exports = {
 		//list the icons you want to add, not listed icons will be tree-shaked
 		icons: {
 			//Which icons you will use. FontAwesome currently supports 5 icon styles of which 2 are freely available.
-			solid: ['faHome', 'faHeart', 'faEye'],
+			solid: [],
 			brands: []
 		}
 	},

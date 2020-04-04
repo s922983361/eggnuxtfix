@@ -17,13 +17,12 @@
                     <!-- Brand Logo / Name -->
                     <div class="flex items-center px-6 py-3 h-16">
                         <div class="text-2xl font-bold tracking-tight text-gray-800">商品分類</div>
+                        <span class="ml-6 text-sm text-teal-600">共{{ cateTotal }}分類</span>
                     </div>
                     <!-- @end Brand Logo / Name -->
 
-                    <div class="px-4 py-2 flex-1 h-0 overflow-y-auto">
-                        <client-only>
-                            <cateTree></cateTree>
-                        </client-only>                        
+                    <div class="px-4 py-2 flex-1 h-0 overflow-y-auto">                        
+                        <cateTree @setCateTotal="setCateTotal"></cateTree>           
                     </div>                    
                 </div>
                 <!-- @end Small Screen Menu -->
@@ -34,13 +33,12 @@
                 <!-- Brand Logo / Name -->
                 <div class="flex items-center px-6 py-3 h-16">
                     <div class="text-2xl font-bold tracking-tight text-gray-800 ">商品分類</div>
+                    <span class="ml-6 text-sm text-teal-600">共{{ cateTotal }}分類</span>
                 </div>
                 <!-- @end Brand Logo / Name -->
 
                 <div class="px-4 py-2">
-                    <client-only>
-                        <cateTree></cateTree>
-                    </client-only>
+                    <cateTree @setCateTotal="setCateTotal"></cateTree>
                 </div>
             </div>
             <!-- @end Menu Above Medium Screen -->
@@ -93,7 +91,8 @@
     export default {
         data () {
             return {
-                sidemenu: true
+                sidemenu: true,
+                cateTotal: 0,
             };
         },
         mounted() {
@@ -108,7 +107,11 @@
         computed: {
             
         },
-        methods: {},
+        methods: {
+            setCateTotal(total) {
+                this.cateTotal = total
+            }
+        },
         components: {
             cateTree
         },

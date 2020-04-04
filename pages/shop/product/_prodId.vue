@@ -45,10 +45,16 @@
                         <path d="M8.128 19.825a1.586 1.586 0 0 1-1.643-.117 1.543 1.543 0 0 1-.53-.662 1.515 1.515 0 0 1-.096-.837l.736-4.247-3.13-3a1.514 1.514 0 0 1-.39-1.569c.09-.271.254-.513.475-.698.22-.185.49-.306.776-.35L8.66 7.73l1.925-3.862c.128-.26.328-.48.577-.633a1.584 1.584 0 0 1 1.662 0c.25.153.45.373.577.633l1.925 3.847 4.334.615c.29.042.562.162.785.348.224.186.39.43.48.704a1.514 1.514 0 0 1-.404 1.58l-3.13 3 .736 4.247c.047.282.014.572-.096.837-.111.265-.294.494-.53.662a1.582 1.582 0 0 1-1.643.117l-3.865-2-3.865 2z" />
                         </svg>
                         <span class="border-l-2 border-gray-500 ml-4 pl-4 text-teal-500">
-                            {{ item.click_count }}<fa-icon :icon="faEye" class="ml-2"></fa-icon>
+                            {{ item.click_count }}
+                            <fa-layers class="fa-1x ml-2">
+                                <fa-icon :icon="faEye"></fa-icon>
+                            </fa-layers>
                         </span>
                         <span class="border-l-2 border-gray-500 ml-4 pl-4 text-teal-500">
-                            {{ item.click_count }}<fa-icon :icon="faShoppingBag" class="ml-2"></fa-icon>
+                            {{ item.click_count }}
+                            <fa-layers class="fa-1x ml-2">
+                                <fa-icon :icon="faShoppingBag"></fa-icon>
+                            </fa-layers>
                         </span>
                     </div>
                 </div><!-- End sub_title wrapper -->
@@ -187,7 +193,9 @@
                 <!------------------------------------------------------------start cart Button wrapper -->
                 <div class="flex flex-wrap mt-4 md:justify-end" @click="addToCart">
                     <button class="w-full md:w-1/2 lg:w-full text-purple-500 bg-transparent border border-solid border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-md text-center px-6 py-3  rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
-                        <fa-icon :icon="faShoppingCart" class="mr-2"></fa-icon> 加入採購清單
+                        <fa-layers class="fa-1x mr-2">
+                            <fa-icon :icon="faShoppingCart"></fa-icon>
+                        </fa-layers> 加入採購清單
                     </button>
                 </div><!-- End cart Button wrapper -->
             </section>
@@ -204,7 +212,9 @@
                             <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                                 <div class="flex px-4 py-5 border-b border-gray-200 sm:px-6">
                                     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-teal-100 md:w-14 md:h-14">
-                                        <fa-icon :icon="faCogs" class="text-teal-600 text-md md:text-xl"></fa-icon>
+                                        <fa-layers class="text-teal-600 text-md md:text-xl">
+                                            <fa-icon :icon="faCogs"></fa-icon>
+                                        </fa-layers>
                                     </div>
                                     <div class="inline-block ml-4 mt-2">
                                         <h3 class="text-lg leading-6 font-medium text-gray-900">
@@ -341,7 +351,9 @@
                                 <!-----------------------------------------start send review Button wrapper -->
                                 <div class="flex flex-wrap mt-4 justify-end" @click="sendReview">
                                     <button class="w-1/4 text-purple-500 bg-transparent border border-solid border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-md text-center px-6 py-3  rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
-                                        <fa-icon :icon="faShoppingCart" class="mr-2"></fa-icon>送出
+                                        <fa-layers class="fa-1x mr-2">
+                                            <fa-icon :icon="faShoppingCart"></fa-icon>
+                                        </fa-layers>送出
                                     </button>
                                 </div><!-- End cart Button wrapper -->
                             </div><!-- End rate warpper -->                            
@@ -352,7 +364,9 @@
             <section class="mayLike container mx-auto p-4 w-full">
                 <div class="flex item-cemter justify-center my-4 border-b border-gray-300 pb-4 mx-auto">
                     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 md:w-14 md:h-14">
-                        <fa-icon :icon="faThumbsUp" class="text-indigo-600 text-md md:text-xl"></fa-icon>
+                        <fa-layers class="text-indigo-600 text-md md:text-xl">
+                            <fa-icon :icon="faThumbsUp"></fa-icon>
+                        </fa-layers>
                     </div>
                     <div class="ml-4 mt-3">
                         <p class="max-w-3xl text-xl leading-7 text-black">
@@ -362,10 +376,9 @@
                 <!----------------------------------------------------------- strat Like product wrapper -->
                 <div >
                     <client-only>               
-                        <slick ref="slick" class="slider-nav" style="width: 95%; margin-left:1rem;" :options="likeSlickOptions">
+                        <slick ref="slick" class="slider-nav" style="margin-left:1rem;" :options="likeSlickOptions">
                             <!-----------------------------------------------------------strat Like product-->
-                            <div 
-                                v-for=" i in 5" :key="i"
+                            <div
                                 class="bg-white shadow-lg rounded-lg overflow-hidden my-6 p-2"
                                 >
                                 <div class="px-4 py-2">
@@ -376,7 +389,7 @@
                                 <div class="flex items-center justify-between px-4 py-2 bg-gray-900">
                                     <p class="text-gray-200 font-bold text-xl">$129</p>
                                     <button
-                                        @click="$router.push(`/store/product/${i}`)"
+                                        @click="$router.push(`/store/product/id`)"
                                         class="px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded"
                                         >查看詳情
                                         </button>

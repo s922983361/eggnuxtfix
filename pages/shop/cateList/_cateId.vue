@@ -14,7 +14,9 @@
                             </div>
 
                             <span class="cursor-pointer absolute top-0 bottom-0 right-0 bg-teal-100 w-10 h-10 rounded-full inline-flex items-center justify-center mt-2 mr-3">
-                                <fa-icon :icon="faCheck" class="text-teal-300 text-2xl"></fa-icon>
+                                <fa-layers class="text-teal-300 text-2xl">
+                                    <fa-icon :icon="faCheck"></fa-icon>
+                                </fa-layers>
                             </span>
                         </div>
                         <!-- <div class="bg-red-200 text-red-700 px-6 py-4 rounded-lg relative" role="alert">
@@ -25,7 +27,9 @@
                             </div>
 
                             <span class="cursor-pointer absolute top-0 bottom-0 right-0 bg-red-100 w-10 h-10 rounded-full inline-flex items-center justify-center mt-2 mr-3">
-                                <fa-icon :icon="faTimes" class="text-red-300 text-2xl"></fa-icon>
+                                <fa-layers class="text-red-300 text-2xl">
+                                    <fa-icon :icon="faTimes"></fa-icon>
+                                </fa-layers>                                
                             </span>
                         </div> -->
                     </template>
