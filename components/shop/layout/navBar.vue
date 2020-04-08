@@ -21,7 +21,7 @@
                                     <fa-icon :icon="faShoppingCart"></fa-icon>
                                 </fa-layers>
                                 
-                                <div class="absolute top-0 right-0 -mt-3 -mr-3 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">20</div>
+                                <div class="absolute top-0 right-0 -mt-3 -mr-3 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">{{ $store.state.cartList.length }}</div>
                             </li>
                             <li class="mr-3 cursor-pointer">
                                 <el-dropdown trigger="click">
@@ -114,7 +114,7 @@
                                 <fa-icon :icon="faShoppingCart"></fa-icon>
                             </fa-layers>
                             
-                            <div class="absolute top-0 right-0 -mt-3 -mr-3 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">20</div>
+                            <div class="absolute top-0 right-0 -mt-3 -mr-3 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">{{ $store.state.cartList.length }}</div>
                         </li>
                         <li class="mr-6 cursor-pointer">
                             <el-dropdown trigger="click">

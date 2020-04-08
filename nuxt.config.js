@@ -7,7 +7,7 @@ module.exports = {
 		//baseUrl: process.env.BASE_URL || 'http://localhost:3000',
 		BASE_URL: process.env.BASE_URL,
 		NODE_ENV: process.env.NODE_ENV,
-		IMG_PATH: `${process.env.BASE_URL}/uplods/`		
+		IMG_PATH: `${process.env.BASE_URL}/uploads/`		
 	},
 	router: {
 		middleware: [],		

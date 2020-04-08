@@ -11,6 +11,7 @@
 
                 <!-- Small Screen Menu --> 
                 <div 
+                    v-if="$mq === 'mobile'"
                     class="fixed inset-y-0 left-0 flex flex-col z-40 max-w-xs w-full bg-white transform ease-in-out duration-300" 
                     :class="{'translate-x-0': sidemenu, '-translate-x-full': !sidemenu}">
 
@@ -21,8 +22,8 @@
                     </div>
                     <!-- @end Brand Logo / Name -->
 
-                    <div class="px-4 py-2 flex-1 h-0 overflow-y-auto">                        
-                        <cateTree @setCateTotal="setCateTotal"></cateTree>           
+                    <div class="px-4 py-2 flex-1 h-0 overflow-y-auto">
+                        <cateTree @setCateTotal="setCateTotal"></cateTree>
                     </div>                    
                 </div>
                 <!-- @end Small Screen Menu -->
@@ -74,9 +75,8 @@
                     </div>
                 </div>
             
-                <div class="flex flex-wrap md:max-w-6xl md:mx-auto px-4 py-8">
-                    <slot name="pageContent"></slot>
-                </div>
+                
+                <slot name="pageContent"></slot>
 
                 <div class="flex justify-end">
                     <slot name="pagination"></slot>
@@ -86,9 +86,10 @@
     </div>
 </template>
 
-<script>
-    import cateTree from '@/components/shop/layout/cateTree'
+<script>    
+    const cateTree = () => ({ component: import(/* webpackChunkName: "cateTree"*/ "@/components/shop/layout/cateTree")})
     export default {
+        
         data () {
             return {
                 sidemenu: true,

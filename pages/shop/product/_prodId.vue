@@ -3,18 +3,22 @@
         <div class="flex flex-wrap">
             <section class="imgList w-full lg:w-7/12 xl:w-1/2 p-4 hover:bg-gray-200">                
                 <client-only>               
-                <slick ref="slick" class="slider-for" style="width: 95%; margin-left:1rem;" :options="slickOptions">
-                    <a href="javascript:void(0)" v-for=" img in item.imgUrl" :key="img.id">
-                        <img :src="`${img.url}`" alt="">
-                    </a>
-                </slick>
+                    <slick ref="slick" class="slider-for" style="width: 95%; margin-left:1rem;" :options="slickOptions">
+                        <img class="h-100 bg-gray-200 w-full object-cover" :src="`${imgPath}${item.imageUrl}`" :alt="`${item.title}`">
+                        <img 
+                            v-for=" img in prodImgs" :key="img._id"
+                            class="h-100 bg-gray-200 w-full object-cover" 
+                            :src="`${imgPath}${img.url}`" :alt="`${item.title}`"/>                    
+                    </slick>
                 </client-only>
                 <client-only>               
-                <slick ref="slick" class="slider-nav" style="width: 95%; margin-left:1rem;" :options="thumbSlickOptions">
-                    <a href="javascript:void(0)" v-for=" img in item.imgUrl" :key="img.id">
-                        <img :src="`${img.url}`" alt="">
-                    </a>
-                </slick>
+                    <slick ref="slick" class="slider-nav mt-4" style="width: 95%; margin-left:1rem;" :options="thumbSlickOptions">                    
+                        <img class="h-32 bg-gray-200 w-full object-cover cursor-pointer" :src="`${imgPath}${item.imageUrl}`" :alt="`${item.title}`">
+                        <img 
+                            v-for=" img in prodImgs" :key="img._id"
+                            class="h-32 bg-gray-200 w-full object-cover cursor-pointer"
+                            :src="`${imgPath}${img.url}`" :alt="`${item.title}`"/>
+                    </slick>
                 </client-only>
             </section>
             <section class="detail relative py-8 px-4 w-full lg:w-5/12 xl:w-1/2">
@@ -60,94 +64,66 @@
                 </div><!-- End sub_title wrapper -->
 
                 <!----------------------------------------------------------------start version wrapper -->
-                <div class="flex flex-wrap mt-4">
+                <div 
+                    v-if="prodVersions.length != 0 "
+                    class="flex flex-wrap mt-4">
                     <div class="text-md text-black w-full mb-2">
                         <label class="py-1  border-b-2 border-teal-500 text-black font-yen text-lg">選擇其他版本/包裝:</label>                        
                     </div>
                     <!--------------------------------------------------------------- start version -->
-                    <div class="w-1/2 md:w-1/3 lg:w-1/2 p-2 cursor-pointer" @click="$router.push(`/store/product/versionId`)">
+                    <div 
+                        v-for="version in prodVersions" :key="version._id"
+                        class="w-1/2 md:w-1/3 lg:w-1/2 p-2 cursor-pointer" @click="$router.push(`/shop/product/${version._id}`)">
                         <div 
                             class="border border-gray-500 px-6 py-3 text-sm font-sans hover:border-orange-500 hover:text-orange-500"
                             style="transition: all .3s ease"
                             >
-                            <span>a-105</span>
-                            <span>商品名稱</span>
-                            <span>商品價</span>
+                            <span>{{ version.goods_sn }}</span>
+                            <span>{{ version.title }}</span>
+                            <span>NT.{{ version.market_price}}</span>
                         </div>                        
-                    </div>
-                    <div class="w-1/2 md:w-1/3 lg:w-1/2 p-2 cursor-pointer" @click="$router.push(`/store/product/versionId`)">
-                        <div 
-                            class="border border-gray-500 px-6 py-3 text-sm font-sans hover:border-orange-500 hover:text-orange-500"
-                            style="transition: all .3s ease"
-                            >
-                            <span>a-105</span>
-                            <span>商品名稱</span>
-                            <span>商品價</span>
-                        </div>                        
-                    </div>
-                    <div class="w-1/2 md:w-1/3 lg:w-1/2 p-2 cursor-pointer" @click="$router.push(`/store/product/versionId`)">
-                        <div 
-                            class="border border-gray-500 px-6 py-3 text-sm font-sans hover:border-orange-500 hover:text-orange-500"
-                            style="transition: all .3s ease"
-                            >
-                            <span>a-105</span>
-                            <span>商品名稱</span>
-                            <span>商品價</span>
-                        </div>                        
-                    </div>
+                    </div>                    
                 </div><!-- End version wrapper --> 
 
                 <!----------------------------------------------------------------start color & size wrapper -->
                 <div class="flex flex-wrap mt-4">
-                    <div class="w-full md:w-1/2 lg:w-full mb-4">
+                    <div 
+                        v-if="prodColors.length != 0"
+                        class="w-full md:w-1/2 lg:w-full mb-4">
                         <div class="text-md text-black w-full mb-2"> 
                             <label class="py-1  border-b-2 border-teal-500 text-black font-yen text-lg">選擇商品顏色:</label>
                         </div>
                         <!---------------------------------------------------------------start color -->
-                        <div class="inline-block cursor-pointer p-1" v-for="i in 7" :key="i">
+                        <div 
+                            v-for="color in prodColors" :key="color._id"
+                            class="inline-block cursor-pointer p-1">
                             <div 
-                                class="flex items-center justify-center w-10 h-10 border-2 border-white rounded-full hover:border-black"                                
+                                class="flex items-center justify-center w-10 h-10 border-2 rounded-full"
+                                :class="colorSelected[color._id] ? 'border-black': 'border-white hover:border-black' "                                
                                 style="transition: all .3s ease"
+                                @click="selectColor(color)"
                                 >
-                                <div class="w-8 h-8 rounded-full " style="background-color:blue"></div>
+                                <div class="w-8 h-8 rounded-full " :style="`background-color:${color.value}`"></div>
                             </div> 
                         </div> 
                     </div>
-                    <div class="w-full md:w-1/2 lg:w-full mb-4">
+                    <div 
+                        v-if="item.goods_attrs.length > 0"
+                        class="w-full md:w-1/2 lg:w-full mb-4">
                         <div class="text-md text-black w-full mb-2">                            
                             <label class="py-1  border-b-2 border-teal-500 text-black font-yen text-lg">選擇尺寸/規格:</label>                        
                         </div>
                         <!--------------------------------------------------------------- start Size -->
-                        <div class="inline-block p-1 cursor-pointer">
+                        <div 
+                            v-for=" (attr, index) in item.goods_attrs" :key="index"
+                            class="inline-block p-1 cursor-pointer">
                             <div 
-                                class="border border-gray-500 px-4 py-2 text-sm font-sans hover:border-3 hover:border-gray-500 hover:bg-gray-800 hover:text-white text-center rounded-lg"
+                                class="border border-gray-500 px-4 py-2 text-sm font-sans text-center rounded-lg"
+                                :class="attrSelected[`${index}-${attr}`] ? 'bg-gray-800 text-white ': 'hover:bg-gray-800 hover:text-white '"
                                 style="transition: all .3s ease"
+                                @click="selectAttr(attr, index)"
                                 >
-                                <span>100x50</span>
-                            </div>
-                        </div>
-                        <div class="inline-block p-1 cursor-pointer">
-                            <div 
-                                class="border border-gray-500 px-4 py-2 text-sm font-sans hover:border-3 hover:border-gray-500 hover:bg-gray-800 hover:text-white text-center rounded-lg"
-                                style="transition: all .3s ease"
-                                >
-                                <span>S</span>
-                            </div>
-                        </div>
-                        <div class="inline-block p-1 cursor-pointer">
-                            <div 
-                                class="border border-gray-500 px-4 py-2 text-sm font-sans hover:border-3 hover:border-gray-500 hover:bg-gray-800 hover:text-white text-center rounded-lg"
-                                style="transition: all .3s ease"
-                                >
-                                <span>M</span>
-                            </div>
-                        </div>
-                        <div class="inline-block p-2 cursor-pointer">
-                            <div 
-                                class="border border-gray-500 px-4 py-2 text-sm font-sans hover:border-3 hover:border-gray-500 hover:bg-gray-800 hover:text-white text-center rounded-lg"
-                                style="transition: all .3s ease"
-                                >
-                                <span>L</span>
+                                <span>{{ attr }}</span>
                             </div>
                         </div>
                     </div><!-- End size wrapper -->
@@ -163,7 +139,7 @@
                         <!--------------------------------------------------------------- start count -->
                         <div class="flex flex-row h-10 w-2/3 rounded-lg relative bg-transparent mt-1">
                             <el-input-number 
-                                v-model="num" 
+                                v-model="count_cart" 
                                 controls-position="right" 
                                 @change="handleChange" 
                                 :min="1" 
@@ -203,9 +179,7 @@
                 <!------------------------------------------------------- start Goods description wrapper  -->
                 <el-tabs type="card">
                     <el-tab-pane label="商品介紹">
-                        <div class="border border-gray-300 rounded-lg p-4">
-                            {{ item.content }}
-                        </div>
+                        <div class="border border-gray-300 rounded-lg p-4" v-html="item.editor_content"></div>
                     </el-tab-pane>
                     <el-tab-pane label="商品規格參數">
                         <div class="p-4">                            
@@ -226,57 +200,15 @@
                                     </div>                                    
                                 </div>
                                 <div>
-                                    <dl>
+                                    <dl v-for="(attrId, i ) in prodAttrIdList" :key="attrId._id">
                                         <div class="bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-blue-100">
                                             <dt class="text-sm leading-5 font-medium text-gray-500">
-                                            是否防水
-                                            </dt>
-                                            <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                                            是
-                                            </dd>
+                                            {{ attrId.name }}</dt>
+                                            <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">{{item.attr_value_list[i]}}</dd>
                                         </div>
-                                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-blue-100">
+                                        <!-- <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-blue-100">
                                             <dt class="text-sm leading-5 font-medium text-gray-500">夾具</dt>
                                             <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">文書夾</dd>
-                                        </div>                                        
-                                        <!-- <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                            <dt class="text-sm leading-5 font-medium text-gray-500">
-                                            Attachments
-                                            </dt>
-                                            <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                                            <ul class="border border-gray-200 rounded-md">
-                                                <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
-                                                <div class="w-0 flex-1 flex items-center">
-                                                    <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd"/>
-                                                    </svg>
-                                                    <span class="ml-2 flex-1 w-0 truncate">
-                                                    resume_back_end_developer.pdf
-                                                    </span>
-                                                </div>
-                                                <div class="ml-4 flex-shrink-0">
-                                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out">
-                                                    Download
-                                                    </a>
-                                                </div>
-                                                </li>
-                                                <li class="border-t border-gray-200 pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
-                                                    <div class="w-0 flex-1 flex items-center">
-                                                        <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd"/>
-                                                        </svg>
-                                                        <span class="ml-2 flex-1 w-0 truncate">
-                                                        coverletter_back_end_developer.pdf
-                                                        </span>
-                                                    </div>
-                                                    <div class="ml-4 flex-shrink-0">
-                                                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out">
-                                                        Download
-                                                        </a>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            </dd>
                                         </div> -->
                                     </dl>
                                 </div>
@@ -327,10 +259,10 @@
                                     <label class="text-lg font-yen">我的評分:</label>
                                     <div class="inline-block ml-2">                                    
                                         <el-rate
-                                            v-model="value2"
+                                            v-model="start"
                                             :show-text="true"
                                             :texts="['不好用', '勉強可以用', '普通', '品質滿意', '持續愛用']"
-                                            :colors="colors">
+                                            :colors="startColors">
                                         </el-rate>
                                     </div>
                                 </div> <!--End My rate warpper -->
@@ -343,7 +275,7 @@
                                             :rows="3"
                                             maxlength="50"
                                             :show-word-limit="true"
-                                            v-model="textarea"
+                                            v-model="assess"
                                             >
                                             </el-input>
                                     </div>
@@ -408,47 +340,26 @@
 <script>
     import { faEye, faShoppingCart, faShoppingBag, faCogs, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
     import '~/node_modules/slick-carousel/slick/slick.css'
+    import '~/node_modules/slick-carousel/slick/slick-theme.css'
+
     export default {
         layout: 'shop',
         scrollToTop: true,
         data () {
             return {
-                textarea:'',
-                value2: null,
-                num:1,
-                colors: ['#99A9BF', '#F7BA2A', '#FF9900'],  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
-                item:{                    
-                    _id:'001',
-                    title: '商品名稱',
-                    sub_title: '一些有的沒得商品描述When an unknown printer specimen book.',
-                    imgUrl: [
-                        {
-                            id:'1111',
-                            url:`${process.env.BASE_URL}/images/example/01.jpg`
-                        },
-                        {
-                            id:'1112',
-                            url:`${process.env.BASE_URL}/images/example/02.jpg`
-                        },
-                        {
-                            id:'1113',
-                            url:`${process.env.BASE_URL}/images/example/03.jpg`
-                        },
-                        {
-                            id:'1114',
-                            url:`${process.env.BASE_URL}/images/example/04.jpg`
-                        },
-                    ],
-                    goods_sn: 'A-105',
-                    market_price: 100,
-                    special_price: 65,
-                    click_count: 22000,
-                    is_new: 1,
-                    is_onSale: 0,
-                    status: 0,
-                    rating: 2,
-                    content:'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus ad et cum nesciunt. Nemo velit accusantium provident. Impedit animi placeat quis tenetur commodi sed sint suscipit nulla esse? Quisquam, molestias?'
-                },                
+                /**購物車所需數據*/
+                count_cart: 1,
+                color_cart: {},
+                attr_cart: '',
+                /**使用者操作數據 */
+                assess: '',
+                start: null,
+                startColors: ['#99A9BF', '#F7BA2A', '#FF9900'],  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+                colorSelected: {},//動態顏色選擇控制
+                attrSelected: {},//動態規格選擇控制
+
+                /**渲染頁面數據*/
+                imgPath: `${process.env.BASE_URL}/uploads/`,                
                 slickOptions: {
                     slidesToShow: 1,//顯示幾張
                     //slidesToScroll: 1,//一次滑行幾張
@@ -491,6 +402,47 @@
                 }
             };
         },
+        async asyncData({ app, route }) {            
+            try {
+                const { item, images, colors, versions, attrIdList } = await app.$axios.$get(`${process.env.EGG_API_URL}/shop/product/${route.params.prodId}`)
+                
+                return {
+                    item,
+                    prodImgs: images,
+                    prodColors: colors,
+                    prodVersions: versions,
+                    prodAttrIdList: attrIdList
+                }
+            }catch(err) {
+                console.log(err)
+            } 
+        },
+        mounted() {
+            this.$nextTick(() => {
+                this.$_.isEmpty(this.prodColors) && this.$set(this.color_cart, 'name', '無顏色可選')
+                if(!this.$_.isEmpty(this.prodColors)){
+                    if(this.prodColors.length === 1) {
+                        this.$set(this.colorSelected, this.prodColors[0]._id, true)
+                        this.$set(this.color_cart, 'name', this.prodColors[0].name)
+                        this.$set(this.color_cart, 'value', this.prodColors[0].value)
+                    }
+                    if(this.prodColors.length > 1) {
+                        this.initColorSelected()
+                    }
+                }
+                if(!this.$_.isEmpty(this.item.goods_attrs)) {
+                    if(this.item.goods_attrs.length === 1) {
+                        this.$set(this.attrSelected, `0-${this.item.goods_attrs[0]}`, true)
+                        this.attr_cart = this.item.goods_attrs[0]
+                    }
+                    if(this.item.goods_attrs.length > 1){
+                        this.initAttrSelected()
+                    }
+                }else {
+                    this.attr_cart = '無規格可選'
+                }
+            })
+        },
         computed: {
             faCogs() { return faCogs },
             faEye() { return faEye },
@@ -498,7 +450,6 @@
             faShoppingBag() { return faShoppingBag },
             faShoppingCart() { return faShoppingCart },
         },
-        created() {},
         methods: {
             next() {
                 this.$refs.slick.next();
@@ -512,14 +463,92 @@
                     this.$refs.slick.reSlick();
                 });
             },
-            async addToCart() {
-                alert(1)
+            async initColorSelected() {
+                if(!this.$helper.isEmpty(this.colorSelected)) {
+                    for(let key in this.colorSelected) {
+                        delete this.colorSelected[key]
+                    }
+                }
+                for(let color of this.prodColors) {
+                    this.$set(this.colorSelected, color._id, false)
+                }
             },
+            async selectColor(color) {
+                await this.initColorSelected()
+                this.colorSelected[color._id] = true
+                this.$set(this.color_cart, 'name', color.name)
+                this.$set(this.color_cart, 'value', color.value)
+            },
+            async initAttrSelected() {
+                if(!this.$helper.isEmpty(this.attrSelected)) {
+                    for(let key in this.attrSelected) {
+                        delete this.attrSelected[key]
+                    }
+                }
+                this.item.goods_attrs.forEach((item, index) => {
+                    this.$set(this.attrSelected, `${index}-${item}`, false)
+                })
+            },
+            async selectAttr(attr, index) {
+                await this.initAttrSelected()
+                this.attrSelected[`${index}-${attr}`] = true
+                this.attr_cart = attr
+            },
+            async addToCart() {
+                if(this.prodColors.length > 1 && this.$helper.isEmpty(this.color_cart)) {
+                    return this.$toast.error('忘記選顏色了!' ,{
+                        position: 'top-right',
+                        duration: 5000,
+                        theme: 'bubble',
+                        action : {
+                            text : 'Cancel',
+                            onClick : (e, toastObject) => {
+                                toastObject.goAway(0);
+                            }
+                        },
+                    })
+                }
+                if(this.item.goods_attrs.length > 1 && this.$helper.isEmpty(this.attr_cart)) {
+                    return this.$toast.error('忘記選規格了!',{
+                        position: 'top-right',
+                        duration: 5000,
+                        theme: 'bubble',
+                        action : {
+                            text : 'Cancel',
+                            onClick : (e, toastObject) => {
+                                toastObject.goAway(0);
+                            }
+                        },
+                    })
+                }
+                let cart = {}
+                cart.id = this.$route.params.prodId + this.attr_cart + this.color_cart.name
+                cart.title = this.item.title
+                cart.sn = this.item.goods_sn
+                cart.attr = this.attr_cart
+                cart.color = Object.assign({},this.color_cart)
+                cart.price = this.item.market_price
+                cart.sale = this.item.special_price
+                cart.count = this.count_cart
+                
+                try{
+                    await this.$store.dispatch('addToCartList', cart)
+                    this.$toast.success('成功加入採購清單!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                    this.count_cart = 1
+                }catch(err) {
+                    //this.$toast.global.my_error() //Using custom toast
+                    console.log(err)
+                    this.$toast.error('Error while authenticating')
+                }
+            },            
             async sendReview() {
                 alert(send)
             },
             handleChange(value) {
-                console.log(value)
             }
         },
         components: {},

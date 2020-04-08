@@ -47,19 +47,45 @@
                 <div class="container">
                     <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg">
                         <thead class="text-white">
-                            <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-                                <th class="p-3 text-left">Name</th>
-                                <th class="p-3 text-left">Email</th>
-                                <th class="p-3 text-left" width="110px">Actions</th>
+                            <tr 
+                                v-for=" i in cartList.length" :key="i"
+                                class="bg-teal-400 flex flex-col flex-no-wrap sm:table-row rounded-l-md sm:rounded-none mb-2 sm:mb-0">
+                                <th class="p-3 text-left">品名</th>
+                                <th class="p-3 text-left">規格/顏色</th>
+                                <th class="p-3 text-left">數量</th>
+                                <th class="p-3 text-left" width="110px">DELETE</th>
                             </tr>                            
                         </thead>
-                        <tbody class="flex-1 sm:flex-none">
-                            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                                <td class="border-grey-light border hover:bg-gray-100 p-3">John Covv</td>
-                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">contato@johncovv.com</td>
-                                <td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
-                            </tr>                            
-                        </tbody>
+                        
+                        <tbody class="flex-1 sm:flex-none" name="page" mode="out-in" is="transition-group">                                
+                            <tr 
+                                v-for="cart in cartList" :key="cart.id"
+                                class="flex flex-col flex-no-wrap sm:table-row mb-2 sm:mb-0 mt-1"
+                                >
+                                <td 
+                                    @click="dialogCartVisible = false"
+                                    class="border-grey-light border hover:bg-gray-100 p-3">
+                                    <nuxt-link
+                                        class="hover:text-blue-400 hover:underline"                                        
+                                        :to="`/shop/product/${cart.id.substring(0, 24)}`">
+                                        {{ cart.sn + cart.title }}
+                                    </nuxt-link>
+                                </td>
+                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">
+                                    <span class="mr-3">{{ cart.attr }}</span>
+                                    <div 
+                                        class="inline-block w-3 h-3 rounded-full text-gray-300 mr-1" :style="`background-color:${cart.color.value};`"
+                                        >
+                                        </div>{{ cart.color.name }}
+                                </td>
+                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ cart.count }}</td>
+                                <td 
+                                    class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer"
+                                    @click="removeCartItem(cart.id)"
+                                    >Delete
+                                    </td>
+                            </tr>
+                        </tbody>                        
                     </table>
                 </div>
             </span>
@@ -82,11 +108,14 @@
     </div>
 </template>
 
-<script>
-    import navBar from '@/components/shop/layout/navBar'
-    import foot from '@/components/landing/foot'
-    import { faList, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
-    export default {
+<script>    
+    import { faList, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'   
+    import { mapState } from 'vuex'
+
+    const navBar = () => ({ component: import(/* webpackChunkName: "shopNavBar"*/ "@/components/shop/layout/navBar")})
+    const foot = () => ({ component: import(/* webpackChunkName: "foot"*/ "@/components/landing/foot")})
+
+    export default {        
         data () {
             return {
                 dialogCartVisible: false //對話開關
@@ -94,7 +123,8 @@
         },
         computed: {
             faList() { return faList },
-            faExclamationTriangle() { return faExclamationTriangle }
+            faExclamationTriangle() { return faExclamationTriangle },
+            ...mapState(['cartList'])            
         },
         methods: {
             /**
@@ -104,6 +134,22 @@
             showShoppingCart() {
                 this.dialogCartVisible = !this.dialogCartVisible
             },
+            async removeCartItem(id) {
+                try{                    
+                    await this.$store.dispatch('deleteCartItem', id)
+                    this.$toast.success('已移除該選單!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }catch(err) {
+                    this.$toast.error('發生不明錯誤,請聯繫管理員!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }
+            }
         },
         components: {
             navBar,

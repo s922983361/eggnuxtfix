@@ -4,12 +4,17 @@
         <ad></ad>
         <search>
             <template v-slot:pageContent>
-                <prodCard>
+                <prodCard 
+                    :goodsData="items"
+                    :IMG_PATH="imgPath"
+                    >
                     <template v-slot:cateTitle>
-                        <div class="bg-teal-200 text-teal-700 px-6 py-4 rounded-lg relative" role="alert">
+                        <div 
+                            v-if="total > 0"
+                            class="bg-teal-200 text-teal-700 px-6 py-4 rounded-lg relative" role="alert">
                             <div class="mr-4">
                                 <strong class="font-bold">{{ $route.query.cate }}</strong>
-                                <span class="block sm:inline text-sm"> 搜尋結果: 共120個商品符合</span>
+                                <span class="block sm:inline text-sm"> 搜尋結果: 共{{ total }}個商品符合</span>
                                 
                             </div>
 
@@ -19,7 +24,9 @@
                                 </fa-layers>
                             </span>
                         </div>
-                        <!-- <div class="bg-red-200 text-red-700 px-6 py-4 rounded-lg relative" role="alert">
+                        <div 
+                            v-if="total == 0"
+                            class="bg-red-200 text-red-700 px-6 py-4 rounded-lg relative" role="alert">
                             <div class="mr-4">
                                 <strong class="font-bold">{{ $route.query.cate }}</strong>
                                 <span class="block sm:inline text-sm"> 搜尋結果: 共 0 個商品符合</span>
@@ -31,23 +38,25 @@
                                     <fa-icon :icon="faTimes"></fa-icon>
                                 </fa-layers>                                
                             </span>
-                        </div> -->
+                        </div>
                     </template>
                 </prodCard>
             </template>
             <template v-slot:pagination>
-                <pagination></pagination>
+                <pagination v-if="total != 0"></pagination>
             </template>
         </search> 
     </div>
 </template>
 
 <script>
-    import ad from '@/components/shop/layout/ad'
-    import search from '@/components/shop/layout/search'
-    import pagination from '@/components/shop/layout/pagination'
-    import prodCard from '@/components/shop/content/prodCard'
     import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+
+    const ad = () => ({ component: import(/* webpackChunkName: "ad"*/ "@/components/shop/layout/ad")})
+    const search = () => ({ component: import(/* webpackChunkName: "search"*/ "@/components/shop/layout/search")})
+    const pagination = () => ({ component: import(/* webpackChunkName: "pagination"*/ "@/components/shop/layout/pagination")})
+    const prodCard = () => ({ component: import(/* webpackChunkName: "brandCard"*/ "@/components/shop/content/prodCard")})
+    
     export default {
         layout: 'shop',
         scrollToTop: true,
@@ -64,8 +73,19 @@
         },
         data () {
             return {
-
+                imgPath: `${process.env.BASE_URL}/uploads/`
             };
+        },
+        async asyncData({ app, route }, pageSize=20) {            
+            try {
+                const { total, items } = await app.$axios.$get(`${process.env.EGG_API_URL}/shop/cateList/${route.params.cateId}/${route.query.page}/${pageSize}`)
+                return {
+                    total,
+                    items
+                }
+            }catch(err) {
+                console.log(err)
+            } 
         },
         computed: {
             faCheck() { return faCheck },

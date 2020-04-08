@@ -27,7 +27,7 @@
             };
         },
         created(){
-            this.getCateTreeData()
+            this.initTreeData()
         },
         methods: {
             renderContent(h, { node, data, store }) {
@@ -45,7 +45,7 @@
                     return h('div', {  
                             class:'flex items-center border-b border-orange-200',
                             on: { 
-                                click: () => { this.$router.push(`/shop/cateList/${data.id}?cate=${node.label}`)
+                                click: () => { this.$router.push(`/shop/cateList/${data.id}?cate=${node.label}&page=1`)
                                 }
                             }},
                             [
@@ -55,32 +55,29 @@
                         )
                 }
             },
-            async getCateTreeData() {
-                try {
-                    const { data, total } = await this.$axios.$get(`${process.env.EGG_API_URL}/shop/cateTreeData`)                    
-                    let arr = data.map( o => {
-                        let obj = {}
-                        obj.id = o._id
-                        obj.pid = o.pid
-                        obj.label = o.name
-                        obj.img = `${process.env.BASE_URL}/uploads/${o.imageUrl}`
-                        if(!this.$_.isEmpty(o.link)) {
-                            obj.link = o.link
-                        }
-                        return obj
+            async initTreeData() {
+                const data = this.$store.state.shop.cateTreeData
+                const total = this.$store.state.shop.cateTotalCount
+                let arr = data.map( o => {
+                    let obj = {}
+                    obj.id = o._id
+                    obj.pid = o.pid
+                    obj.label = o.name
+                    obj.img = `${process.env.BASE_URL}/uploads/${o.imageUrl}`
+                    if(!this.$_.isEmpty(o.link)) {
+                        obj.link = o.link
+                    }
+                    return obj
+                })
+                let tree = arr.filter( o => o.pid == '0')
+                tree.forEach( o => {
+                    o.children = []
+                    o.children = arr.filter( c => {
+                        return c.pid === o.id
                     })
-                    let tree = arr.filter( o => o.pid == '0')
-                    tree.forEach( o => {
-                        o.children = []
-                        o.children = arr.filter( c => {
-                            return c.pid === o.id
-                        })
-                    })
-                    this.treeData = tree
-                    this.$emit('setCateTotal', total)
-                }catch(err) {
-                    console.log(err)
-                }
+                })
+                this.treeData = tree
+                this.$emit('setCateTotal', total)
             }
         },
     }

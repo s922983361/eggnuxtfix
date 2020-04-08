@@ -24,11 +24,12 @@
     import formEdit from '@/components/admin/form/formEdit'
     import notify from '@/plugins/mixins/admin/notify'
     import factory_save from '@/plugins/mixins/admin/edit/factory_save'
+    import deleteImg from '@/plugins/mixins/admin/deleteImg'
     import getSelectList from '@/plugins/mixins/admin/edit/getSelectList'
 
     export default {
         layout: 'admin',
-        mixins: [ notify, factory_save, getSelectList],
+        mixins: [ notify, factory_save, getSelectList, deleteImg],
         data () {
             return {
                 config : {
@@ -37,7 +38,7 @@
                     relatedModel: ['GoodsColor', 'GoodsType', 'GoodsTypeAttr', 'GoodsCate'],
 
                     afterSavePushTo: 'factory_Goods',//路由名稱
-                    uploadImage: false,
+                    uploadImage: true,
                     imageFolder: `${process.env.BASE_URL}/uploads/`,
                 },                
                 attrData:[],//商品屬性
@@ -131,13 +132,19 @@
                         ]
                     },
                     {                        
-                        label: '是否上架:',
-                        prop: 'status',
-                        type: 'switch',
-                        active: 1,    //value of active
-                        inactive: 0,  //value of inactive
+                        label: '上傳商品主圖:',
+                        prop: 'imageUrl',
+                        type: 'file',
+                        action: '/api/admin/upload', //sever API
+                        listType: 'picture', //['text', 'picture', 'picture-card']
                         position: 'basic-response-left',//['response-left', 'response-right', 'response-full']
-                        disabled: false,                        
+                        data: {
+                            uploadFile : `goodsMainImg/${this.$store.state.admin.currentBrandId}`//custom pic dirName
+                        },
+                        autoUpload: true,
+                        showFileList: false,
+                        multiple: false,
+                        limit: 1, //Number: have to set value if 'multiple' is true                        
                     },
                     {                        
                         label: '商品大類:',
@@ -195,6 +202,15 @@
                         placeholder: '修改時間資料庫自動產生',
                         position: 'basic-response-right',//['response-left', 'response-right', 'response-full']
                         disabled: true                        
+                    },
+                    {                        
+                        label: '是否上架:',
+                        prop: 'status',
+                        type: 'switch',
+                        active: 1,    //value of active
+                        inactive: 0,  //value of inactive
+                        position: 'basic-response-right',//['response-left', 'response-right', 'response-full']
+                        disabled: false,                        
                     },
                     { 
                         label: 'SEO 關鍵詞:',

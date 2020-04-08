@@ -113,7 +113,9 @@
                         <div class="container">
                             <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg">
                                 <thead class="text-white">
-                                    <tr class="bg-teal-400 flex flex-col flex-no-wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                                    <tr 
+                                        v-for=" i in cartList.length" :key="i"
+                                        class="bg-teal-400 flex flex-col flex-no-wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
                                         <th class="p-3 text-left" width="110px">Delete
                                             <fa-layers class="fa-1x text-red-400">
                                                 <fa-icon :icon="faTrashAlt"></fa-icon>
@@ -127,39 +129,54 @@
                                         <th class="p-3 text-left" width="110px">小計</th>
                                     </tr>                            
                                 </thead>
-                                <tbody class="flex-1 sm:flex-none">
-                                    <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+                                <tbody 
+                                    class="flex-1 sm:flex-none"  
+                                    name="page" 
+                                    mode="out-in" 
+                                    is="transition-group">
+                                    <tr 
+                                        v-for="(cart, index) in cartList" :key="cart.id"
+                                        class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
                                         <td 
                                             class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 cursor-pointer"
-                                            @click="removeCartItem"
+                                            @click="removeCartItem(cart.id)"
                                             >
                                             Delete
                                         </td>
                                         <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">
-                                            <nuxt-link to="/shop/pruduct/id">
-                                                <span class="underline hover:text-blue-300 cursor-pointer">型號 + 品名</span>
+                                            <nuxt-link
+                                                class="hover:text-blue-400 hover:underline"                                        
+                                                :to="`/shop/product/${cart.id.substring(0, 24)}`">
+                                                {{ cart.sn + cart.title }}
                                             </nuxt-link>
                                         </td>
                                         <td class="border-grey-light border hover:bg-gray-100 p-3">
-                                            <span class="mr-3">規格4556456465456464</span>
-                                            <div class="inline-block w-3 h-3 rounded-full text-gray-300" style="background-color:blue;"></div>
+                                            <span class="mr-3">{{ cart.attr }}</span>
+                                            <div 
+                                                class="inline-block w-3 h-3 rounded-full text-gray-300 mr-1" :style="`background-color:${cart.color.value};`"
+                                                >
+                                                </div>{{ cart.color.name }}
                                         </td>
                                         <td class="border-grey-light border hover:bg-gray-100 p-1">
                                             <el-input-number 
-                                                v-model="num" 
+                                                v-model="quantity[index]" 
                                                 controls-position="right" 
-                                                @change="handleChange" 
+                                                @change="handleChange($event, index)" 
                                                 :min="1" 
                                                 :max="999"
                                                 >
                                                 </el-input-number>
                                         </td>
-                                        <td class="border-grey-light border hover:bg-gray-100 p-3">200</td>
+                                        <td class="border-grey-light border hover:bg-gray-100 p-3">{{ cart.price }}</td>
                                         <td class="border-grey-light border hover:bg-gray-100 p-3">
-                                            <!-- <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">待回復</span> -->
-                                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200 uppercase last:mr-0 mr-1">70 %</span>
+                                            <span 
+                                                v-if="cart.sale > 0"
+                                                class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200 uppercase last:mr-0 mr-1">特價不折扣{{ cart.sale }}</span>
+                                            <span 
+                                                v-else
+                                                class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">待回復</span>
                                         </td>
-                                        <td class="border-grey-light border hover:bg-gray-100 p-3">2400</td>                                        
+                                        <td class="border-grey-light border hover:bg-gray-100 p-3">{{ Math.ceil(cart.count*cart.price) }}</td>                                        
                                     </tr>
                                 </tbody>
                             </table>
@@ -203,6 +220,7 @@
 
 <script>
     import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+    import { mapState } from 'vuex'
     export default {
         layout:'shop',
         data () {
@@ -218,23 +236,52 @@
                     contact: '',
                     addtion: '',
                 },
-                num: ''
-
+                quantity:[]
             };
         },
+        created(){
+            let count = this.$store.state.cartList.map( item => item.count )
+            this.quantity = count
+        },
         computed: {
-            faTrashAlt() { return faTrashAlt }
+            faTrashAlt() { return faTrashAlt },
+            ...mapState(['cartList'])
         },
         methods: {
             onSubmit() {
                 console.log('submit!')
             },
-            handleChange(value) {
-                console.log(value)
+            async handleChange(value, index) {
+                let obj = {}
+                obj.count = value
+                obj.index = index
+                try{                    
+                    await this.$store.dispatch('changeCartItemCount', obj)
+                }catch(err) {
+                    console.log(err)
+                    this.$toast.error('發生不明錯誤,請聯繫管理員!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }
             },
-            removeCartItem(){
-                console.log('remove')
-            }
+            async removeCartItem(id) {
+                try{                    
+                    await this.$store.dispatch('deleteCartItem', id)
+                    this.$toast.success('已移除該選單!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }catch(err) {
+                    this.$toast.error('發生不明錯誤,請聯繫管理員!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }
+            },
         },
         components: {},
     }

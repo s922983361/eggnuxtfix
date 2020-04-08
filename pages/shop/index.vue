@@ -5,7 +5,8 @@
         <search>
             <template v-slot:pageContent>
                 <brandCard
-                    :brandData=brandData
+                    :brandItems="brandItems"
+                    :IMG_PATH="brandImgPath"
                     >
                     </brandCard>
             </template>
@@ -17,10 +18,10 @@
 </template>
 
 <script>
-    import ad from '@/components/shop/layout/ad'
-    import search from '@/components/shop/layout/search'
-    import pagination from '@/components/shop/layout/pagination'
-    import brandCard from '@/components/shop/content/brandCard'
+    const ad = () => ({ component: import(/* webpackChunkName: "ad"*/ "@/components/shop/layout/ad")})
+    const search = () => ({ component: import(/* webpackChunkName: "search"*/ "@/components/shop/layout/search")})
+    const pagination = () => ({ component: import(/* webpackChunkName: "pagination"*/ "@/components/shop/layout/pagination")})
+    const brandCard = () => ({ component: import(/* webpackChunkName: "brandCard"*/ "@/components/shop/content/brandCard")})
     
     export default {
         layout: 'shop',
@@ -38,15 +39,23 @@
         },
         data () {
             return {
-                brandData: '',
+                brandTotal: 0,
+                brandItems: [],
+                brandImgPath: `${process.env.BASE_URL}/uploads/`
             };
         },
         async asyncData({ app }) {
-            //await app.$axios.$get()
+            try {
+                const { brandTotal, brandItems } = await app.$axios.$get(`${process.env.EGG_API_URL}/shop/index`)
+                return {
+                    brandTotal,
+                    brandItems
+                }
+            }catch(err) {
+                console.log(err)
+            } 
         },
-        computed: {
-            
-        },
+        computed: {},
         methods: {},
         components: {
             ad,

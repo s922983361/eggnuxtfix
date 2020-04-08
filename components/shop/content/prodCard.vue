@@ -7,7 +7,7 @@
                 <div class="rounded-lg hover:border-black">
 
                     <div class="relative bg-gray-200 pb-48">
-                        <img class="absolute h-full w-full object-cover rounded-lg shadow-md" v-lazy="item.imgUrl" :alt="item.title">
+                        <img class="absolute h-full w-full object-cover rounded-lg shadow-md" v-lazy="`${IMG_PATH}${item.imageUrl}`" :alt="item.title">
                     </div>                    
 
                     <div class="relative px-4 -mt-12">
@@ -84,93 +84,94 @@
 <script>
     import { faEye, faShoppingCart, faShoppingBag } from '@fortawesome/free-solid-svg-icons'
     export default {
+        props:['goodsData', 'IMG_PATH'],
         data () {
             return {
-                goodsData: [
-                    {
-                        _id:'001',
-                        title: '商品名稱',
-                        sub_title: '一些有的沒得商品描述',
-                        imgUrl: '/images/example/03.jpg',
-                        goods_sn: 'A-105',
-                        market_price: 100,
-                        special_price: 65,
-                        click_count: 22000,
-                        is_new: 1,
-                        is_onSale: 1,
-                        status: 0,
-                        rating: 2
-                    },
-                    {   
-                        _id:'002',
-                        title: '商品名稱',
-                        sub_title: '一些有的沒得商品描述一些有的沒得一些有的沒得',
-                        imgUrl: '/images/example/02.jpg',
-                        goods_sn: 'A-105',
-                        market_price: 100,
-                        special_price: 70,
-                        click_count: 22000,
-                        is_new: 0,
-                        is_onSale: 1,
-                        status: 0,
-                        rating: 3
-                    },
-                    {
-                        _id:'003',
-                        title: '商品名稱',
-                        sub_title: '一些有的沒得商品描述',
-                        imgUrl: '/images/example/01.jpg',
-                        goods_sn: 'A-105',
-                        market_price: 100,
-                        special_price: 70,
-                        click_count: 22000,
-                        is_new: 0,
-                        is_onSale: 0,
-                        status: 0,
-                        rating: 5
-                    },
-                    {
-                        _id:'003',
-                        title: '商品名稱',
-                        imgUrl: '/images/example/04.jpg',
-                        goods_sn: 'A-105',
-                        market_price: 100,
-                        special_price: 70,
-                        click_count: 22000,
-                        is_new: 1,
-                        is_onSale: 0,
-                        status: 0,
-                        rating: 4
-                    },
+                // goodsData: [
+                //     {
+                //         _id:'001',
+                //         title: '商品名稱',
+                //         sub_title: '一些有的沒得商品描述',
+                //         imgUrl: '/images/example/03.jpg',
+                //         goods_sn: 'A-105',
+                //         market_price: 100,
+                //         special_price: 65,
+                //         click_count: 22000,
+                //         is_new: 1,
+                //         is_onSale: 1,
+                //         status: 0,
+                //         rating: 2
+                //     },
+                //     {   
+                //         _id:'002',
+                //         title: '商品名稱',
+                //         sub_title: '一些有的沒得商品描述一些有的沒得一些有的沒得',
+                //         imgUrl: '/images/example/02.jpg',
+                //         goods_sn: 'A-105',
+                //         market_price: 100,
+                //         special_price: 70,
+                //         click_count: 22000,
+                //         is_new: 0,
+                //         is_onSale: 1,
+                //         status: 0,
+                //         rating: 3
+                //     },
+                //     {
+                //         _id:'003',
+                //         title: '商品名稱',
+                //         sub_title: '一些有的沒得商品描述',
+                //         imgUrl: '/images/example/01.jpg',
+                //         goods_sn: 'A-105',
+                //         market_price: 100,
+                //         special_price: 70,
+                //         click_count: 22000,
+                //         is_new: 0,
+                //         is_onSale: 0,
+                //         status: 0,
+                //         rating: 5
+                //     },
+                //     {
+                //         _id:'003',
+                //         title: '商品名稱',
+                //         imgUrl: '/images/example/04.jpg',
+                //         goods_sn: 'A-105',
+                //         market_price: 100,
+                //         special_price: 70,
+                //         click_count: 22000,
+                //         is_new: 1,
+                //         is_onSale: 0,
+                //         status: 0,
+                //         rating: 4
+                //     },
                     
-                    {
-                        _id:'004',
-                        title: '商品名稱',
-                        sub_title: '一些有的沒得商品描述',
-                        imgUrl: '/images/example/01.jpg',
-                        goods_sn: 'A-105',
-                        market_price: 100,
-                        special_price: 70,
-                        click_count: 22000,
-                        is_new: 1,
-                        is_onSale: 1,
-                        status: 0,
-                        rating: 5
-                    },
-                    {
-                        _id:'005',
-                        title: '商品名稱',
-                        imgUrl: '/images/example/04.jpg',
-                        goods_sn: 'A-105',
-                        market_price: 100,
-                        special_price: 70,
-                        click_count: 22000,
-                        is_new: 0,
-                        is_onSale: 0,
-                        status: 0,
-                        rating: 4
-                    },
-                ]
+                //     {
+                //         _id:'004',
+                //         title: '商品名稱',
+                //         sub_title: '一些有的沒得商品描述',
+                //         imgUrl: '/images/example/01.jpg',
+                //         goods_sn: 'A-105',
+                //         market_price: 100,
+                //         special_price: 70,
+                //         click_count: 22000,
+                //         is_new: 1,
+                //         is_onSale: 1,
+                //         status: 0,
+                //         rating: 5
+                //     },
+                //     {
+                //         _id:'005',
+                //         title: '商品名稱',
+                //         imgUrl: '/images/example/04.jpg',
+                //         goods_sn: 'A-105',
+                //         market_price: 100,
+                //         special_price: 70,
+                //         click_count: 22000,
+                //         is_new: 0,
+                //         is_onSale: 0,
+                //         status: 0,
+                //         rating: 4
+                //     },
+                // ]
             };
         },
         computed: {
