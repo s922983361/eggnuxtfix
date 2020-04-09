@@ -187,13 +187,13 @@
                         <div class="flex justify-between mb-3">
                             <div class="text-gray-800 text-right flex-1">未稅額</div>
                             <div class="text-right w-40">
-                                <div class="text-gray-800 font-medium">1200</div>
+                                <div class="text-gray-800 font-medium">{{ cartListTotal }}</div>
                             </div>
                         </div>
                         <div class="flex justify-between mb-4">
                             <div class="text-sm text-gray-600 text-right flex-1">(5%) incl.</div>
                             <div class="text-right w-40">
-                                <div class="text-sm text-gray-600">60</div>
+                                <div class="text-sm text-gray-600">{{ cartListTotal*5/100}}</div>
                             </div>
                         </div>
                     
@@ -201,7 +201,7 @@
                             <div class="flex justify-between">
                                 <div class="text-xl text-gray-600 text-right flex-1">總計</div>
                                 <div class="text-right w-40">
-                                    <div class="text-xl text-gray-800 font-bold">1260</div>
+                                    <div class="text-xl text-gray-800 font-bold">{{ cartListTotal+(cartListTotal*5/100)}}</div>
                                 </div>
                             </div>
                         </div>
@@ -240,17 +240,21 @@
             };
         },
         created(){
-            let count = this.$store.state.cartList.map( item => item.count )
-            this.quantity = count
+            //同步購物車商品的數量(必須,因無法直接修改store)
+            if(this.$store.state.cartList.length > 0 ){
+                let count = this.$store.state.cartList.map( item => item.count )
+                this.quantity = count
+            }
         },
         computed: {
             faTrashAlt() { return faTrashAlt },
-            ...mapState(['cartList'])
+            ...mapState(['cartList', 'cartListTotal'])
         },
         methods: {
             onSubmit() {
                 console.log('submit!')
             },
+            //數項改及動態同步購物車
             async handleChange(value, index) {
                 let obj = {}
                 obj.count = value
@@ -266,6 +270,7 @@
                     })
                 }
             },
+            //刪除品項
             async removeCartItem(id) {
                 try{                    
                     await this.$store.dispatch('deleteCartItem', id)
@@ -275,6 +280,7 @@
                         theme: 'bubble',
                     })
                 }catch(err) {
+                    console.log(err)
                     this.$toast.error('發生不明錯誤,請聯繫管理員!', {
                         position: 'top-right',
                         duration: 2000,

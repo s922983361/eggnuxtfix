@@ -56,7 +56,6 @@ module.exports = {
 		{ src: '@/plugins/nuxt-quill-plugin.js', ssr: false },
 		{ src: '@/plugins/barcode.js', ssr: false },
 		{ src: '@/plugins/vue-scrollto.js', ssr: false },
-		{ src: '@/plugins/vue-owl-carousel.js', ssr: false },
 		{ src: '@/plugins/vue-lazyload.js', ssr: true },
 		{ src: '@/plugins/vue-slick.js', ssr: false },
 	],

@@ -6,9 +6,9 @@
         <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
             <!-- start logo -->
             <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-                <a class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white"
-                href="https://www.creative-tim.com/learning-lab/tailwindcss-starter-project#/presentation"
-                >Tailwind Starter Kit</a>
+                <nuxt-link to="/" class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white">Tailwind Starter Kit
+                </nuxt-link>
+                
                 <button
                     class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                     type="button"
@@ -24,9 +24,9 @@
                 v-bind:class="{'hidden': !showMenu, 'block': showMenu}">
                 <!-- start LEFT nav-item -->
                 <ul class="flex flex-col lg:flex-row list-none mr-auto">
-                    <li class="flex items-center hover:bg-orange-400">
+                    <li class="flex items-center">
                         <a 
-                            class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="#"
+                            class="lg:text-white lg:hover:text-orange-400 px-3 py-4 lg:py-2 flex items-center text-md uppercase font-bold" href="#"
                             @click="showMenu = !showMenu"
                             v-scroll-to="{ 
                                 el: '#Feature',
@@ -35,12 +35,12 @@
                                 offset: -63
                             }"
                             >
-                            <fa-layers class="fa-1x lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
+                            <fa-layers class="fa-1x text-lg leading-lg mr-2">
                                 <fa-icon :icon="faFileAlt" ></fa-icon>
-                            </fa-layers> Docs
+                            </fa-layers> 沿革
                         </a>
                     </li>
-                    <li class="flex items-center hover:bg-orange-400">
+                    <li class="flex items-center hover:text-orange-400">
                         <a 
                             class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="#"
                             @click="showMenu = !showMenu"
@@ -53,10 +53,10 @@
                             >
                             <fa-layers class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
                                 <fa-icon :icon="faFileAlt" ></fa-icon>
-                            </fa-layers> Docs
+                            </fa-layers> 採購人員
                         </a>
                     </li>
-                    <li class="flex items-center hover:bg-orange-400">
+                    <li class="flex items-center hover:text-orange-400">
                         <a 
                             class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="#"
                             @click="showMenu = !showMenu"
@@ -69,10 +69,10 @@
                             >
                             <fa-layers class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
                                 <fa-icon :icon="faFileAlt" ></fa-icon>
-                            </fa-layers> Docs
+                            </fa-layers> 商品經銷商
                         </a>
                     </li>
-                    <li class="flex items-center hover:bg-orange-400">
+                    <li class="flex items-center hover:text-orange-400">
                         <a 
                             class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold" href="#"
                             @click="showMenu = !showMenu"
@@ -85,41 +85,13 @@
                             >
                             <fa-layers class="lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
                                 <fa-icon :icon="faFileAlt" ></fa-icon>
-                            </fa-layers> Docs
+                            </fa-layers> 生產廠商
                         </a>
                     </li>
                 </ul><!-- END LEFT nav-item -->
 
                 <!-- start RIGHT nav-item -->
                 <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
-                    <li class="flex items-center">
-                        <a
-                            class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                            href="#pablo">
-                            <fa-layers class="fa-1x lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
-                                <fa-icon :icon="faFacebook" ></fa-icon>
-                            </fa-layers>
-                            <span class="lg:hidden inline-block ml-2">Share</span></a>
-                    </li>
-                    <li class="flex items-center">
-                        <a
-                            class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                            href="#pablo">
-                            <fa-layers class="fa-1x lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
-                                <fa-icon :icon="faTwitter"></fa-icon>
-                            </fa-layers>                            
-                            <span class="lg:hidden inline-block ml-2">Tweet</span></a>
-                    </li>
-                    <li class="flex items-center">
-                        <a
-                            class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                            href="#pablo">
-                            <fa-layers class="fa-1x lg:text-gray-300 text-gray-500 text-lg leading-lg mr-2">
-                                <fa-icon :icon="faGithub" ></fa-icon>
-                            </fa-layers>
-                            
-                            <span class="lg:hidden inline-block ml-2">Star</span></a>
-                    </li>
                     <li class="flex items-center">
                         <button
                             class="bg-gray-400 text-gray-800 active:bg-gray-100 text-sm font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none hover:bg-orange-500 hover:text-white focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
