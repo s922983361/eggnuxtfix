@@ -82,29 +82,67 @@
                 brandImgPath: `${process.env.BASE_URL}/uploads/`,
                 
                 pagination: {
-                    pageIndex: this.$store.state.shop.currentPageIndex,/**第幾頁 default:1 */ 
+                    pageIndex: this.$store.state.shop.brandListPageIndex,/**第幾頁 default:1 */ 
+                    pageSize: 12
                 }, 
             };
         },
-        async asyncData({ app }) {
-            try {
-                const { brandTotal, brandItems } = await app.$axios.$get(`${process.env.EGG_API_URL}/shop/index`)
-                return {
-                    brandTotal,
-                    brandItems
+        async asyncData({ app, store, route }) {
+            if(process.server) {
+                let pageIndex = ''
+                if(route.query.page === undefined || route.query.page === null ){
+                    pageIndex = '1'
+                }else {
+                    pageIndex = route.query.page
                 }
-            }catch(err) {
-                console.log(err)
-            } 
+
+                try {
+                    const { brandTotal, brandItems } = await app.$axios.$get(`${process.env.EGG_API_URL}/shop/index/${pageIndex}`)
+                    return {
+                        brandTotal,
+                        brandItems
+                    }
+                }catch(err) {
+                    console.log(err)
+                }
+            }
+        },
+        created() {
+            let pageIndex = this.$route.query.page ? parseInt(this.$route.query.page) : 1
+            process.client && this.initBranList(pageIndex)
         },
         computed: {
             faCheck(){ return faCheck },
             faTimes(){ return faTimes }
         },
         methods: {
-            handleIndexChange(value){
-                console.log(value)
-            }
+            async initBranList(pageIndex){
+                try {
+                    const { brandTotal, brandItems } = await this.$axios.$get(`${process.env.EGG_API_URL}/shop/index/${pageIndex}`)
+                    
+                    this.brandTotal = brandTotal
+                    this.brandItems = brandItems                    
+                }catch(err) {                    
+                    this.$toast.error('發生不明錯誤,請聯繫管理員!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }
+            },
+            async handleIndexChange(index){
+                try{
+                    //await this.$store.dispatch('shop/setBrandListPageIndex', index)
+                    this.$router.push(`/shop?page=${index}`)
+                    await this.initBranList(index)
+                }catch(err) {
+                    this.$toast.error('發生不明錯誤,請聯繫管理員!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }                
+            },
         },
         components: {
             ad,

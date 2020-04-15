@@ -532,7 +532,7 @@
                 cart.count = this.count_cart
                 
                 try{
-                    await this.$store.dispatch('addToCartList', cart)
+                    await this.$store.dispatch('shop/addToCartList', cart)
                     this.$toast.success('成功加入採購清單!', {
                         position: 'top-right',
                         duration: 2000,

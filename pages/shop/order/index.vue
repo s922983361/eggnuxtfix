@@ -220,7 +220,7 @@
 
 <script>
     import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-    import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
     export default {
         layout:'shop',
         data () {
@@ -241,14 +241,14 @@
         },
         created(){
             //同步購物車商品的數量(必須,因無法直接修改store)
-            if(this.$store.state.cartList.length > 0 ){
-                let count = this.$store.state.cartList.map( item => item.count )
+            if(this.$store.state.shop.cartList.length > 0 ){
+                let count = this.$store.state.shop.cartList.map( item => item.count )
                 this.quantity = count
             }
         },
         computed: {
             faTrashAlt() { return faTrashAlt },
-            ...mapState(['cartList', 'cartListTotal'])
+            ...mapGetters(['cartList', 'cartListTotal'])
         },
         methods: {
             onSubmit() {
@@ -260,7 +260,7 @@
                 obj.count = value
                 obj.index = index
                 try{                    
-                    await this.$store.dispatch('changeCartItemCount', obj)
+                    await this.$store.dispatch('shop/changeCartItemCount', obj)
                 }catch(err) {
                     console.log(err)
                     this.$toast.error('發生不明錯誤,請聯繫管理員!', {
@@ -273,7 +273,7 @@
             //刪除品項
             async removeCartItem(id) {
                 try{                    
-                    await this.$store.dispatch('deleteCartItem', id)
+                    await this.$store.dispatch('shop/deleteCartItem', id)
                     this.$toast.success('已移除該選單!', {
                         position: 'top-right',
                         duration: 2000,

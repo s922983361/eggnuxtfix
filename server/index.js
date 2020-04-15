@@ -75,7 +75,8 @@ app.use(router.routes()).use(router.allowedMethods())
 
 
 /** public API */
-router.use('/api/common', require('./controller/common'))// common includ [svg-captcha, checkCapcha]
+router.use('/api/common', require('./controller/common'))// common includ [svg-captcha, checkCapcha, validCode]
+router.use('/api/member', require('./controller/member'))
 
 
 /** private API */

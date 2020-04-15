@@ -20,7 +20,7 @@
                                     <fa-icon :icon="faShoppingCart"></fa-icon>
                                 </fa-layers>
                                 
-                                <div class="absolute top-0 right-0 -mt-2 -mr-2 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">{{ $store.state.cartList.length }}</div>
+                                <div class="absolute top-0 right-0 -mt-2 -mr-2 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">{{ $store.state.shop.cartList.length }}</div>
                             </li>
                             <li class="mr-3 cursor-pointer">
                                 <el-dropdown trigger="click">
@@ -36,7 +36,9 @@
                                     
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item icon="el-icon-user-solid">個人中心</el-dropdown-item>
-                                        <el-dropdown-item icon="el-icon-success">LOGIN</el-dropdown-item>
+                                        <nuxt-link to="/member">
+                                            <el-dropdown-item icon="el-icon-success">LOGIN</el-dropdown-item>
+                                        </nuxt-link>                                        
                                         <el-dropdown-item icon="el-icon-error">LOGOUT</el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
@@ -59,8 +61,8 @@
                     <ul class="flex flex-col lg:flex-row items-center list-none mr-auto">
                         <li 
                             class="inline-block my-2 text-sm text-white cursor-pointer px-3 py-1 border border-pink-500 lg:border-indigo-700 hover:bg-pink-500 rounded-lg transition duration-300 ease-in-out"
-                            :class="$route.path === '/shop' || $route.path === '/shop/'? 'bg-pink-500': ''"
-                            @click="$router.push('/shop')"
+                            :class="$route.path.startsWith('/shop')? 'bg-pink-500': ''"
+                            @click="$router.push('/shop?page=1')"
                             >
                             <fa-layers class="fa-1x">
                                 <fa-icon :icon="faShoppingBag"></fa-icon>
@@ -113,7 +115,7 @@
                                 <fa-icon :icon="faShoppingCart"></fa-icon>
                             </fa-layers>
                             
-                            <div class="absolute top-0 right-0 -mt-2 -mr-2 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">{{ $store.state.cartList.length }}</div>
+                            <div class="absolute top-0 right-0 -mt-2 -mr-2 w-5 h-5 rounded-full bg-pink-500 text-center text-white text-xs flex justify-center items-center">{{ $store.state.shop.cartList.length }}</div>
                         </li>
                         <li class="mr-6 mt-1 cursor-pointer">
                             <el-dropdown trigger="click">
@@ -128,7 +130,9 @@
                                 
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item icon="el-icon-user-solid">個人中心</el-dropdown-item>
-                                    <el-dropdown-item icon="el-icon-success">登入</el-dropdown-item>
+                                    <nuxt-link to="/member">
+                                        <el-dropdown-item icon="el-icon-success">登入</el-dropdown-item>
+                                    </nuxt-link>
                                     <el-dropdown-item icon="el-icon-error">登出</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>

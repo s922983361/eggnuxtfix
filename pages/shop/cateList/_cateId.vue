@@ -43,7 +43,11 @@
                 </prodCard>
             </template>
             <template v-slot:pagination>
-                <pagination v-if="total != 0"></pagination>
+                <pagination
+                    :page_total="total"
+                    :page__pagination="pagination"
+                    @handleIndexChange="handleIndexChange"
+                    ></pagination>
             </template>
         </search> 
     </div>
@@ -73,25 +77,74 @@
         },
         data () {
             return {
-                imgPath: `${process.env.BASE_URL}/uploads/`
+                total: 0,
+                items: [],
+                cateName: this.$route.query.cate,
+                imgPath: `${process.env.BASE_URL}/uploads/`,
+                pagination: {
+                    pageIndex: this.$store.state.shop.cateListPageIndex,/**第幾頁 default:1 */ 
+                    pageSize: 20
+                },
             };
         },
-        async asyncData({ app, route }, pageSize=20) {            
-            try {
-                const { total, items } = await app.$axios.$get(`${process.env.EGG_API_URL}/shop/cateList/${route.params.cateId}/${route.query.page}/${pageSize}`)
-                return {
-                    total,
-                    items
+        async asyncData({ app, route }, pageSize=20) {
+            if(process.server) {
+
+                let pageIndex = ''
+                if(route.query.page === undefined || route.query.page === null ){
+                    pageIndex = '1'
+                }else {
+                    pageIndex = route.query.page
                 }
-            }catch(err) {
-                console.log(err)
-            } 
+
+                try {
+                    const { total, items } = await app.$axios.$get(`${process.env.EGG_API_URL}/shop/cateList/${route.params.cateId}/${pageIndex}/${pageSize}`)
+                    return {
+                        total,
+                        items
+                    }
+                }catch(err) {
+                    console.log(err)
+                } 
+            }            
+        },
+        created() {
+            let pageIndex = this.$route.query.page ? parseInt(this.$route.query.page) : 1
+            process.client && this.initCateList(pageIndex)            
         },
         computed: {
             faCheck() { return faCheck },
             faTimes() { return faTimes }
         },
-        methods: {},
+        methods: {
+            async initCateList(pageIndex, pageSize=20){
+                try {
+                    const { total, items } = await this.$axios.$get(`${process.env.EGG_API_URL}/shop/cateList/${this.$route.params.cateId}/${pageIndex}/${pageSize}`)
+                    
+                    this.total = total
+                    this.items = items                    
+                }catch(err) { 
+                    console.log(err)
+                    this.$toast.error('發生不明錯誤,請聯繫管理員!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }
+            },
+            async handleIndexChange(index){
+                try{                    
+                    this.$router.push(`/shop/cateList/${this.$route.params.cateId}?cate=${this.cateName}&page=${index}`)
+                    await this.initCateList(index)
+                }catch(err) {
+                    this.$toast.error('發生不明錯誤,請聯繫管理員!', {
+                        position: 'top-right',
+                        duration: 2000,
+                        theme: 'bubble',
+                    })
+                }                
+            },
+        },
         components: {
             ad,
             search,

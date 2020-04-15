@@ -58,6 +58,7 @@ module.exports = {
 		{ src: '@/plugins/vue-scrollto.js', ssr: false },
 		{ src: '@/plugins/vue-lazyload.js', ssr: true },
 		{ src: '@/plugins/vue-slick.js', ssr: false },
+		{ src: '@/plugins/vue-countdown.js', ssr: false },
 	],
 
 	/*

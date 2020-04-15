@@ -29,5 +29,4 @@ router.post('/captcha', async (ctx) => {
     }
 })
 
-
 module.exports = router.routes();

@@ -98,7 +98,7 @@
                             type="button"
                             style="transition: all 0.15s ease 0s;"
                             >
-                            <nuxt-link to="/shop">
+                            <nuxt-link to="/shop?page=1">
                                 <fa-layers class="fa-1x text-lg">
                                     <fa-icon :icon="faHandPointRight"></fa-icon>
                                 </fa-layers>&nbsp; 進入採購中心

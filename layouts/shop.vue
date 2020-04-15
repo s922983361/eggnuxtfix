@@ -110,7 +110,7 @@
 
 <script>    
     import { faList, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'   
-    import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
 
     const navBar = () => ({ component: import(/* webpackChunkName: "shopNavBar"*/ "@/components/shop/layout/navBar")})
     const foot = () => ({ component: import(/* webpackChunkName: "foot"*/ "@/components/landing/foot")})
@@ -124,7 +124,7 @@
         computed: {
             faList() { return faList },
             faExclamationTriangle() { return faExclamationTriangle },
-            ...mapState(['cartList'])            
+            ...mapGetters(['cartList'])            
         },
         methods: {
             /**
@@ -136,7 +136,7 @@
             },
             async removeCartItem(id) {
                 try{                    
-                    await this.$store.dispatch('deleteCartItem', id)
+                    await this.$store.dispatch('shop/deleteCartItem', id)
                     this.$toast.success('已移除該選單!', {
                         position: 'top-right',
                         duration: 2000,
