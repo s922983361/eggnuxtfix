@@ -38,7 +38,7 @@
     "lodash": "^4.17.15",
     "nodemailer": "^6.4.6",
     "nodemailer-mailgun-transport": "^2.0.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^3.4.3",
     "nuxt-maintenance-mode": "^0.3.0",
     "nuxt-mq": "^2.0.1",
     "nuxt-social-meta": "0.0.1",
